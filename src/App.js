@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Axios from "axios"
 import { useState, useEffect } from "react"
@@ -7,7 +6,7 @@ function App() {
   const [database, setDatabase] = useState()
   const [visibilityForm, setVisibilityForm] = useState("invisible")
   const [buttonSimbol, setButtonSimbol] = useState("+")
-  const databaseUrl = "phoneBook-table-othersField-foto"
+  const databaseUrl = "https://phonebook-challenger.herokuapp.com/"
 
   const fetchDatabaseFromSql = url => {
   Axios.get(databaseUrl)
@@ -91,12 +90,12 @@ function App() {
         <label>Foto</label><input name = "Foto"/>
         <label>Nome</label><input name = "Nome"/>
         <label>Telefone</label><input type = 'tel' name = "Telefone"/>
-        <label>E-mail</label><input  placeholder = "+55 99 9 9999-9999" type = 'email' name = "Email"/>
+        <label>E-mail</label><input type = 'email' name = "Email"/>
         <button className = 'addNewUser-button'>Criar novo usuário</button>
       </form>
       <table className = {`phoneBook-table-${visibilityForm}`}>
         <tr className = "phoneBook-table-firstLine">
-          {
+          { 
             database && database.fields.map(firstLineName => {
               return <th>{firstLineName.name}</th>
             }) 
@@ -111,7 +110,7 @@ function App() {
                   Object.keys(othersLine).map(othersLineContent => {
                     console.log(othersLineContent === "foto")
                     if (othersLineContent === "foto") {
-                      return <img alt = "Foto do usuário" src = {othersLine[othersLineContent]} className = {'phoneBook-table-othersField-foto'}  onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}/>
+                      return <td className = {'phoneBook-table-othersField'}><img alt = "Foto do usuário" src = {othersLine[othersLineContent]} className = {'phoneBook-table-othersField-foto'}  onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}/></td>
                     }
                     else {
                       return <td className = {'phoneBook-table-othersField'}  onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}>{othersLine[othersLineContent]}</td> 

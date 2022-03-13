@@ -1,0 +1,110 @@
+.phoneBook-table-othersField-foto {
+    width: 30px;
+    height: 30px;
+}
+
+.addNewUser-form-visible {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-style: solid;
+    width: 180px;
+    height: 180px;
+    margin-top: -90px;
+    margin-left: -90px;
+    background-color: rgb(167, 243, 167);
+    text-align: center;
+}
+
+.addNewUser-form-visible > input {
+    background-color: rgb(218, 248, 218);
+}
+
+.addNewUser-form-invisible {
+    display: none;
+}
+
+.phoneBook-table-invisible {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.phoneBook-table-visible {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.phoneBook-table-invisible > tr:nth-child(odd) {
+    background-color: rgb(218, 253, 164);
+}
+
+.phoneBook-table-invisible > tr:nth-child(even) {
+    background-color: rgb(184, 247, 60);
+}
+
+.phoneBook-table-invisible > tr:first-child {
+    background-color: rgb(0, 255, 0);
+    height: 30px;
+}
+
+.phoneBook-table-visible > tr:nth-child(odd) {
+    background-color: rgb(218, 253, 164);
+}
+
+.phoneBook-table-visible > tr:nth-child(even) {
+    background-color: rgb(184, 247, 60);
+}
+
+.phoneBook-table-visible > tr:first-child {
+    background-color: rgb(0, 255, 0);
+    height: 30px;
+}
+
+.phoneBook-table-othersField {
+    text-align: center;
+}
+
+.openForm-button {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    border-radius: 20px;
+    border-color: yellow;
+    background-color: greenyellow;
+    font-weight: 700;
+    z-index: 1;
+}
+
+.openForm-button:hover {
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}
+
+.phoneBook-table-delete-button {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    background-color: red;
+    top: 7px;
+    color: white;
+    font-weight: 700;
+}
+
+.phoneBook-table-delete-button:hover {
+    background-color: rgb(179, 3, 3);
+    cursor: pointer;
+}
+
+.phoneBook-table-invisible {
+    width: 100%;
+}
+
+.phoneBook-table-visible {
+    width: 100%;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
