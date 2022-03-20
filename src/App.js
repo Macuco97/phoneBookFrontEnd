@@ -110,7 +110,7 @@ function App() {
                   Object.keys(othersLine).map(othersLineContent => {
                     console.log(othersLineContent === "foto")
                     if (othersLineContent === "foto") {
-                      return <td className = {'phoneBook-table-othersField'}><img alt = "Foto do usuário" src = {othersLine[othersLineContent]} className = {'phoneBook-table-othersField-foto'}  onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}/></td>
+                      return <td className = {'phoneBook-table-othersField'} onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}><img alt = "Foto do usuário" src = {othersLine[othersLineContent]}  className = {'phoneBook-table-othersField-foto'} /></td>
                     }
                     else {
                       return <td className = {'phoneBook-table-othersField'}  onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}>{othersLine[othersLineContent]}</td> 
