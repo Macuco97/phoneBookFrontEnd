@@ -8,16 +8,18 @@
     left: 50%;
     top: 50%;
     border-style: solid;
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 210px;
     margin-top: -90px;
     margin-left: -90px;
     background-color: rgb(167, 243, 167);
     text-align: center;
+    padding: 10px;
 }
 
 .addNewUser-form-visible > input {
     background-color: rgb(218, 248, 218);
+    margin: 5px;
 }
 
 .addNewUser-form-invisible {
@@ -107,4 +109,11 @@
     width: 100%;
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.uploadInput { 
+    display: inline;
+    font-size: 13px;
+    margin-bottom: 5px;
+    width: 180px;
 }

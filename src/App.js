@@ -6,7 +6,7 @@ function App() {
   const [database, setDatabase] = useState()
   const [visibilityForm, setVisibilityForm] = useState("invisible")
   const [buttonSimbol, setButtonSimbol] = useState("+")
-  const databaseUrl = "https://phonebook-challenger.herokuapp.com/"
+  const databaseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "https://phonebook-challenger.herokuapp.com/"
 
   const fetchDatabaseFromSql = url => {
   Axios.get(databaseUrl)
@@ -24,7 +24,6 @@ function App() {
       setVisibilityForm("invisible")
       setButtonSimbol("+")
     }
-    console.log(database.rows)
   }
 
   const createNewUser = e => {
@@ -73,21 +72,25 @@ function App() {
     })
       .then(res => setDatabase(res.data))
   }
-  
+
+  const verifyExtentionJpeg = e => {
+    let extention = e.target.value.split(".")
+    extention = extention[extention.length - 1]
+    if (extention !== "jpeg") {
+      e.target.value = ""
+      alert("Please, import a file that has the extension jpeg")
+    }
+  }
 
   useEffect (() => {
     fetchDatabaseFromSql(databaseUrl)
   },[])
 
-  useEffect (()=> {
-    console.log(database)
-  }, [database])
-
   return (
     <div className="Container">
       <button className = 'openForm-button' onClick = {e => openForm(e)}>{buttonSimbol}</button>
       <form className = {`addNewUser-form-${visibilityForm}`} onSubmit = {e => createNewUser(e)}>
-        <label>Foto</label><input name = "Foto"/>
+        <label className = "uploadLabel">Foto <input accept = "image/*"  type = "file" className = "uploadInput" onChange = {e => verifyExtentionJpeg(e)} /></label>
         <label>Nome</label><input name = "Nome"/>
         <label>Telefone</label><input type = 'tel' name = "Telefone"/>
         <label>E-mail</label><input type = 'email' name = "Email"/>
@@ -108,7 +111,6 @@ function App() {
               <tr className = {'phoneBook-table-othersLine'}>
                 {
                   Object.keys(othersLine).map(othersLineContent => {
-                    console.log(othersLineContent === "foto")
                     if (othersLineContent === "foto") {
                       return <td className = {'phoneBook-table-othersField'} onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}><img alt = "Foto do usuário" src = {othersLine[othersLineContent]}  className = {'phoneBook-table-othersField-foto'} /></td>
                     }
