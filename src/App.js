@@ -2,6 +2,7 @@ import './App.css';
 import Axios from "axios"
 import React, { useState, useEffect } from "react"
 
+
 function App() {
   const [database, setDatabase] = useState()
   const [visibilityForm, setVisibilityForm] = useState("invisible")
@@ -13,6 +14,10 @@ function App() {
     .then(res => setDatabase(res.data))
     .catch(err => console.log(err))
   }
+
+  useEffect (() => {
+    fetchDatabaseFromSql(databaseUrl)
+  }, [''])
 
   const openForm = e => {
     e.preventDefault()
@@ -29,24 +34,24 @@ function App() {
   const createNewUser = e => {
     e.preventDefault()
     const event = e.target
-    if(event.Foto.value && event.Nome.value && event.Telefone.value && event.Email.value){
-        console.log(event.Foto.value)
-        Axios.post(databaseUrl, {
-          foto: event.Foto.value,
-          nome: event.Nome.value,
-          telefone: event.Telefone.value,
-          email: event.Email.value
-        })
-          .then(res => setDatabase(res.data))
-        setVisibilityForm('invisible')
-        event.Foto.value = ""
-        event.Nome.value = ""
-        event.Telefone.value = ""
-        event.Email.value = ""
-     }
-    else {
-        alert("Por favor, preencha todos os campos!!!")
+    const formData = new FormData(event)
+    const elementsInputValue = []
+    let element
+    Object.keys(event).forEach( key => {
+      element = event[key]
+      if (element.tagName === "INPUT") {
+        elementsInputValue.push(element.value)
+      }
+    })
+    if(elementsInputValue.indexOf("") === -1) {
+      console.log(formData.get("nome"))
+      Axios.post(databaseUrl, formData)
     }
+    else {
+      alert("Please, fill all")
+    }
+      
+  
   }
 
   const deleteNewUser = e => {
@@ -73,7 +78,7 @@ function App() {
       .then(res => setDatabase(res.data))
   }
 
-  const verifyExtentionJpeg = e => {
+  const extentionJpegChecker = e => {
     let extention = e.target.value.split(".")
     extention = extention[extention.length - 1]
     if (extention !== "jpeg") {
@@ -82,18 +87,31 @@ function App() {
     }
   }
 
-  useEffect (() => {
-    fetchDatabaseFromSql(databaseUrl)
-  },[])
+  function toBase64(arr) {
+    //arr = new Uint8Array(arr) if it's an ArrayBuffer
+    return btoa(
+       arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
+    );
+ }
+
+  
 
   return (
     <div className="Container">
       <button className = 'openForm-button' onClick = {e => openForm(e)}>{buttonSimbol}</button>
       <form className = {`addNewUser-form-${visibilityForm}`} onSubmit = {e => createNewUser(e)}>
-        <label className = "uploadLabel">Foto <input accept = "image/*"  type = "file" className = "uploadInput" onChange = {e => verifyExtentionJpeg(e)} /></label>
-        <label>Nome</label><input name = "Nome"/>
-        <label>Telefone</label><input type = 'tel' name = "Telefone"/>
-        <label>E-mail</label><input type = 'email' name = "Email"/>
+        <label 
+          className = "uploadLabel">Foto 
+                                    <input 
+                                      name = "foto"
+                                      accept = "image/*"  
+                                      type = "file" 
+                                      className = "uploadInput" 
+                                      onChange = {e => extentionJpegChecker(e)} />
+        </label>
+        <label>Nome</label><input name = "nome"/>
+        <label>Telefone</label><input type = 'tel' name = "telefone"/>
+        <label>E-mail</label><input type = 'email' name = "email"/>
         <button className = 'addNewUser-button'>Criar novo usuário</button>
       </form>
       <table className = {`phoneBook-table-${visibilityForm}`}>
@@ -112,7 +130,8 @@ function App() {
                 {
                   Object.keys(othersLine).map(othersLineContent => {
                     if (othersLineContent === "foto") {
-                      return <td className = {'phoneBook-table-othersField'} onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}><img alt = "Foto do usuário" src = {othersLine[othersLineContent]}  className = {'phoneBook-table-othersField-foto'} /></td>
+                      const sourcerImage = `data:image/png;base64,${othersLine[othersLineContent]}`
+                      return <td className = {'phoneBook-table-othersField'} onClick = {e => console.log(sourcerImage)} onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}><img alt = "Foto do usuário" src = {sourcerImage}  className = {'phoneBook-table-othersField-foto'} /></td>
                     }
                     else {
                       return <td className = {'phoneBook-table-othersField'}  onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}>{othersLine[othersLineContent]}</td> 
