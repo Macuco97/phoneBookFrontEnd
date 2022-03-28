@@ -1,23 +1,28 @@
 import './App.css';
 import Axios from "axios"
 import React, { useState, useEffect } from "react"
+import addItemIcon from "./addItemIcon.png"
+
 
 
 function App() {
-  const [database, setDatabase] = useState()
+  const [dataBase, setDataBase] = useState()
+  const [dataBaseRows, setDataBaseRows] = useState()
+  const [dataBaseFields, setDataBaseFields] = useState()
   const [visibilityForm, setVisibilityForm] = useState("invisible")
   const [buttonSimbol, setButtonSimbol] = useState("+")
-  const databaseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "https://phonebook-challenger.herokuapp.com/"
-
-  const fetchDatabaseFromSql = url => {
-  Axios.get(databaseUrl)
-    .then(res => setDatabase(res.data))
+  const dataBaseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "https://phonebook-challenger.herokuapp.com/"
+  let row 
+  let rowKeys 
+  let field
+  
+  const fetchDataBaseFromSql = url => {
+  Axios.get(dataBaseUrl)
+    .then(res => setDataBase(res.data))
     .catch(err => console.log(err))
   }
 
-  useEffect (() => {
-    fetchDatabaseFromSql(databaseUrl)
-  }, [''])
+  
 
   const openForm = e => {
     e.preventDefault()
@@ -45,7 +50,9 @@ function App() {
     })
     if(elementsInputValue.indexOf("") === -1) {
       console.log(formData.get("nome"))
-      Axios.post(databaseUrl, formData)
+      Axios.post(dataBaseUrl, formData)
+        .then(res => setDataBase(res.data))
+        .catch(err => console.log(err))
     }
     else {
       alert("Please, fill all")
@@ -55,7 +62,7 @@ function App() {
   }
 
   const deleteNewUser = e => {
-    Axios.delete(databaseUrl, {
+    Axios.delete(dataBaseUrl, {
       data: {
         telefone: e.target.name
       },
@@ -64,18 +71,18 @@ function App() {
       }
 
     })
-      .then(res => setDatabase(res.data))
+      .then(res => setDataBase(res.data))
   }
 
   const updateNewUser = (lineKey, lineChange) => {
     console.log(lineKey, lineChange)
     const newValue = prompt("Escolha o novo valor:")
-    Axios.put(databaseUrl, {
+    Axios.put(dataBaseUrl, {
       newValue: newValue,
       lineKey: lineKey.telefone,
       lineChange: lineChange
     })
-      .then(res => setDatabase(res.data))
+      .then(res => setDataBase(res.data))
   }
 
   const extentionJpegChecker = e => {
@@ -87,65 +94,43 @@ function App() {
     }
   }
 
-  function toBase64(arr) {
-    //arr = new Uint8Array(arr) if it's an ArrayBuffer
-    return btoa(
-       arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
-    );
- }
+
+  useEffect (() => {
+    fetchDataBaseFromSql(dataBaseUrl)
+  }, [])
+
+  useEffect (() => {
+    if(dataBase) {
+      setDataBaseFields(dataBase.fields)
+      setDataBaseRows(dataBase.rows)
+    }
+  },[dataBase])
 
   
 
   return (
-    <div className="Container">
-      <button className = 'openForm-button' onClick = {e => openForm(e)}>{buttonSimbol}</button>
-      <form className = {`addNewUser-form-${visibilityForm}`} onSubmit = {e => createNewUser(e)}>
-        <label 
-          className = "uploadLabel">Foto 
-                                    <input 
-                                      name = "foto"
-                                      accept = "image/*"  
-                                      type = "file" 
-                                      className = "uploadInput" 
-                                      onChange = {e => extentionJpegChecker(e)} />
-        </label>
-        <label>Nome</label><input name = "nome"/>
-        <label>Telefone</label><input type = 'tel' name = "telefone"/>
-        <label>E-mail</label><input type = 'email' name = "email"/>
-        <button className = 'addNewUser-button'>Criar novo usuário</button>
-      </form>
-      <table className = {`phoneBook-table-${visibilityForm}`}>
-        <tr className = "phoneBook-table-firstLine">
-          { 
-            database && database.fields.map(firstLineName => {
-              return <th>{firstLineName.name}</th>
-            }) 
-          }
-          <th></th>
-        </tr>
+    <div className = 'container'>
+      <div className = 'header'>
+        <img className = "addItemIcon" src = {addItemIcon} alt = 'Icon Add User'/>
+        <h3 className = 'title'>Phonebook</h3>
+      </div>
+      <div className = 'body'>
         {
-          database && database.rows.map(othersLine => {
-            return (
-              <tr className = {'phoneBook-table-othersLine'}>
-                {
-                  Object.keys(othersLine).map(othersLineContent => {
-                    if (othersLineContent === "foto") {
-                      const sourcerImage = `data:image/png;base64,${othersLine[othersLineContent]}`
-                      return <td className = {'phoneBook-table-othersField'} onClick = {e => console.log(sourcerImage)} onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}><img alt = "Foto do usuário" src = {sourcerImage}  className = {'phoneBook-table-othersField-foto'} /></td>
-                    }
-                    else {
-                      return <td className = {'phoneBook-table-othersField'}  onDoubleClick = {() => updateNewUser(othersLine, othersLineContent)}>{othersLine[othersLineContent]}</td> 
-                    }
-                    
-                  })
-                }
-                <button className = {'phoneBook-table-delete-button'} name = {othersLine.telefone} onClick = {e => deleteNewUser(e)}>X</button>
-              </tr>
-            )
-          })
+        dataBaseRows && dataBaseRows.map( row => {
+          rowKeys = Object.keys(row)
+          return (
+            <div className = 'bodyField'>
+              <div className = 'profileField'>
+              {
+                <img alt = 'profileImage' src = {'data:image/png;base64,', row.foto}/>
+              }
+              </div>
+            </div>
+          )
+        } )
         }
-      </table>
-      
+      </div>
+          
     </div>
   )
 }
