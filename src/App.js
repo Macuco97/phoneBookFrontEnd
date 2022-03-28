@@ -10,7 +10,7 @@ function App() {
   const [dataBaseRows, setDataBaseRows] = useState()
   const [dataBaseFields, setDataBaseFields] = useState()
   const [visibilityForm, setVisibilityForm] = useState("invisible")
-  const [buttonSimbol, setButtonSimbol] = useState("+")
+  const [editMode, setEditMode] = useState('NormalMode')
   const dataBaseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "https://phonebook-challenger.herokuapp.com/"
   let row 
   let rowKeys 
@@ -20,20 +20,6 @@ function App() {
   Axios.get(dataBaseUrl)
     .then(res => setDataBase(res.data))
     .catch(err => console.log(err))
-  }
-
-  
-
-  const openForm = e => {
-    e.preventDefault()
-    if (visibilityForm === "invisible") {
-      setVisibilityForm("visible")
-      setButtonSimbol("x")
-    }
-    else {
-      setVisibilityForm("invisible")
-      setButtonSimbol("+")
-    }
   }
 
   const createNewUser = e => {
@@ -94,6 +80,15 @@ function App() {
     }
   }
 
+  const changeEditMode = () => {
+    if(editMode === "NormalMode") {
+      setEditMode("AddUserMode")
+    }
+    else {
+      setEditMode("NormalMode")
+    }
+  }
+
 
   useEffect (() => {
     fetchDataBaseFromSql(dataBaseUrl)
@@ -106,12 +101,23 @@ function App() {
     }
   },[dataBase])
 
+  useEffect (() => {
+    console.log(editMode)
+  },[editMode])
+
   
 
   return (
     <div className = 'container'>
+      <form className = {`addNewUserForm${editMode}`} onSubmit = {e => createNewUser(e)}>
+        <input className = 'uploadFotoInput' name = 'foto' id = 'foto' type = 'file'></input>
+        <input name = 'nome'/>
+        <input name = 'telefone'/>
+        <input name = 'email'/>
+        <button>Create</button>
+      </form>
       <div className = 'header'>
-        <img className = "addItemIcon" src = {addItemIcon} alt = 'Icon Add User'/>
+        <img className = "addItemIcon" src = {addItemIcon} alt = 'Icon Add User' onClick = {e => {changeEditMode()}}/>
         <h3 className = 'title'>Phonebook</h3>
       </div>
       <div className = 'body'>
@@ -121,10 +127,22 @@ function App() {
           return (
             <div className = 'bodyField'>
               <div className = 'profileField'>
-              {
-                <img alt = 'profileImage' src = {'data:image/png;base64,', row.foto}/>
-              }
+                {
+                  <img className = 'profileImage' alt = 'profileImage' src = {`data:image/png;base64,${row.foto}`}/>
+                }
               </div>
+              <ul className = 'infoField'>
+                {
+                  rowKeys.map( key => {
+                    field = row[key]
+                    if(key != "foto") {
+                      return (
+                        <li>{field}</li>
+                      )
+                    }
+                  } )
+                }
+              </ul> 
             </div>
           )
         } )

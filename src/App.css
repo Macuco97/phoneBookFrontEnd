@@ -17,7 +17,8 @@
 .header > img {
     height: 25px;
     width: 25px;
-    margin: 3px
+    margin: 3px;
+    z-index: 10;
 }
 
 .title {
@@ -25,7 +26,9 @@
     position: absolute;
     top: 15px;
     margin-top: -10px;
-    width: 100%
+    width: 100%;
+    z-index: -1;
+    
 }
 
 .bodyField {
@@ -34,3 +37,49 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+
+.profileImage {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+
+.infoField {
+    padding-top: 10%;
+    list-style-type: "\27A1  ";
+}
+
+.infoField > li {
+    white-space: nowrap;
+}
+
+.addNewUserFormAddUserMode { 
+    position: fixed;
+    top: 29px;
+    background: var(--my-header);
+    width: 50vw;
+
+}
+
+.addNewUserFormAddUserMode > * {
+    margin: 2px 2px 5px 5px;
+    display: block;
+    max-height: 300px;
+    background: transparent;  
+}
+
+.addNewUserFormAddUserMode > *:not(input[type='file']){
+    border-style: none none solid solid;
+    overflow: hidden;
+}
+
+.addNewUserFormNormalMode {
+    height: 0px;
+    display: block;
+    background: transparent; 
+}
+
+
+
+
+
