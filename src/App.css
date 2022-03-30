@@ -53,31 +53,27 @@
     white-space: nowrap;
 }
 
-.addNewUserFormAddUserMode { 
+.addNewUserForm { 
     position: fixed;
     top: 29px;
     background: var(--my-header);
     width: 50vw;
-
 }
 
-.addNewUserFormAddUserMode > * {
+.addNewUserForm > * {
     margin: 2px 2px 5px 5px;
     display: block;
     max-height: 300px;
     background: transparent;  
-}
-
-.addNewUserFormAddUserMode > *:not(input[type='file']){
     border-style: none none solid solid;
     overflow: hidden;
 }
 
-.addNewUserFormNormalMode {
-    height: 0px;
-    display: block;
-    background: transparent; 
+.addNewUserForm > input[type='file']{
+    border-style: none;
+    width: 47%;
 }
+
 
 
 

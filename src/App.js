@@ -6,12 +6,16 @@ import addItemIcon from "./addItemIcon.png"
 
 
 function App() {
+
+  
+  
+  
   const [dataBase, setDataBase] = useState()
   const [dataBaseRows, setDataBaseRows] = useState()
   const [dataBaseFields, setDataBaseFields] = useState()
-  const [visibilityForm, setVisibilityForm] = useState("invisible")
-  const [editMode, setEditMode] = useState('NormalMode')
+  const [createNewUserFormStatus, setCreateNewUserFormStatus] = useState(false)
   const dataBaseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "https://phonebook-challenger.herokuapp.com/"
+  
   let row 
   let rowKeys 
   let field
@@ -80,16 +84,6 @@ function App() {
     }
   }
 
-  const changeEditMode = () => {
-    if(editMode === "NormalMode") {
-      setEditMode("AddUserMode")
-    }
-    else {
-      setEditMode("NormalMode")
-    }
-  }
-
-
   useEffect (() => {
     fetchDataBaseFromSql(dataBaseUrl)
   }, [])
@@ -101,23 +95,30 @@ function App() {
     }
   },[dataBase])
 
-  useEffect (() => {
-    console.log(editMode)
-  },[editMode])
-
-  
-
   return (
     <div className = 'container'>
-      <form className = {`addNewUserForm${editMode}`} onSubmit = {e => createNewUser(e)}>
+
+      {
+      createNewUserFormStatus &&
+      <form className = 'addNewUserForm' onSubmit = {e => createNewUser(e)}>
         <input className = 'uploadFotoInput' name = 'foto' id = 'foto' type = 'file'></input>
-        <input name = 'nome'/>
-        <input name = 'telefone'/>
-        <input name = 'email'/>
+        <input 
+          placeholder='Type your name here'
+          name = 'nome'
+        />
+        <input 
+          placeholder = 'Type your name phone here'
+          name = 'telefone'
+          />
+        <input 
+          placeholder = 'Type your email here'
+          name = 'email'
+          />
         <button>Create</button>
       </form>
+      }
       <div className = 'header'>
-        <img className = "addItemIcon" src = {addItemIcon} alt = 'Icon Add User' onClick = {e => {changeEditMode()}}/>
+        <img className = "addItemIcon" src = {addItemIcon} alt = 'Icon Add User' onClick = {e => setCreateNewUserFormStatus(!createNewUserFormStatus)}/>
         <h3 className = 'title'>Phonebook</h3>
       </div>
       <div className = 'body'>
