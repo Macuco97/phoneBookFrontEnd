@@ -5,6 +5,7 @@ import addItemIcon from "./addItemIcon.png"
 import loadingIco from './loading.gif'
 import submitIco from './submitIco.png'
 import xIco from './xIco.png'
+import editIco from './editIco.png'
 
 
 
@@ -203,7 +204,7 @@ function App() {
                   (currentColumnToBeUpdated === "foto" && currentRowToBeUpdated === row.telefone) ?
                   <form className = 'toBeUpdatedPhotoForm' onSubmit = {e => updateNewPhoto(e)}>
                     <label for = 'toBeUpdatedPhotoInput' className = 'toBeUpdatedPhotoLabel'>                    
-                      <div>
+                      <div className = {newPhotoToBeUpdated && 'toBeUpdatedPhotoDiv'}>
                         {
                           newPhotoToBeUpdated ?
                           newPhotoToBeUpdated
@@ -235,14 +236,14 @@ function App() {
                         return (
                           <form onSubmit = {e => updateNewUser(e)}>
                             <input name = 'toBeUpdatedInput' className = 'fieldToBeUpdatedInput'/>
-                            <button><img  className = 'submitIco' alt = 'submitIco' src = {submitIco} /></button>
+                            <button className ='submitButton'><img  className = 'submitIco' alt = 'submitIco' src = {submitIco} /></button>
                             <img className = 'xIco' alt = 'submitIco' src = {xIco} onClick = {e => {setKeysInState("", "")}} />
                           </form>
                         )
                       }
                       else {
                         return (
-                          <li key = {key} onDoubleClick = {e => setKeysInState(row.telefone, key)}>{field}</li>
+                          <li key = {key}>{field}<img onDoubleClick = {e => setKeysInState(row.telefone, key)} className = 'editIco' alt = 'Edit Ico' src = {editIco}/></li>
                         )
                       }
                       

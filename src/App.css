@@ -9,7 +9,6 @@ body {
 } 
 
 li {
-    font-size: 20px;
     color: white;
     margin-left: 8vw;
 }
@@ -61,16 +60,13 @@ button {
     
 }
 
-.body {
-    display: grid;
-    grid-template-areas: ". bodyField .";
-}
-
 .bodyField {
+    position: relative;
     color: white;
     display: grid;
     grid-area: bodyField;
     grid-template-columns: 10vw 20vw;
+    padding-left: 29vw;
 
 }
 
@@ -82,10 +78,10 @@ button {
 
 .profileField > button {
     position: absolute;
-    right: 2vw;
+    right: 26vw;
     background: transparent;
     border: transparent;
-    font-size: 17px;
+    font-size: 2vw;
     cursor: pointer;
     z-index: 1;
     opacity: 0.5;
@@ -112,7 +108,9 @@ button {
     position: fixed;
     top: 29px;
     background: var(--my-header);
-    width: 50vw;
+    width: 190px;
+    border-radius: 0% 5% 5% 5%;
+    z-index: 2;
 }
 
 .addNewUserForm > * {
@@ -129,27 +127,55 @@ button {
     width: 47%;
 }
 
+.addNewUserForm > button {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.addNewUserForm > button:hover {
+    opacity: 1;
+}
+
 .fieldToBeUpdatedInput {
     position: relative;
     background: transparent;
-    margin-left: 10vw;
-    font-size: 4vw;
+    margin-left: 8vw;
+    font-size: 2vw;
     border-style: none none ridge ridge;
     color: white;
     padding-left: 3px;
     width: 30vw;
-    top: -2vh;
+    top: 2vh;
 
 }
 
 .submitIco { 
     position: relative;
-    width: 8vw;
-    height: 3vh;
+    width:2.4vw;
+    height: 1.8vw;
     left: 2vw;
     cursor: pointer;
     opacity: 0.5;
-    top: -2vh;
+    bottom: 0.7vw;
+    right: 10vw;
+}
+
+.submitButton {
+    position: relative;
+    left: 37vw;
+    bottom: 1vw;
+}
+
+.editIco { 
+    width: 1.2vw;
+    height: 1.2vw;
+    margin-left: 0.7vw;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.editIco:hover { 
+    opacity: 1;
 }
 
 .submitIco:hover {
@@ -158,12 +184,12 @@ button {
 
 .xIco { 
     position: relative;
-    width: 7vw;
-    height: 7vw;
-    left: 5vw;
+    width: 2vw;
+    height: 2vw;
+    left: 40vw;
     cursor: pointer;
     opacity: 0.5;
-    top: -2vh;
+    bottom: 1.6vw;
 }
 
 .xIco:hover { 
@@ -177,14 +203,14 @@ button {
 .toBeUpdatedPhotoLabel { 
     position: relative;
     display: block;
-    font-size: 5px;
     background-color: var(--my-header);
     border-radius: 50%;
-    width: 25vw;
-    height: 30vw;
+    width: 11vw;
+    height: 10vw;
     text-align: center;
     opacity: 0.5;
     cursor: pointer;
+    left: 4vw;
 }
 
 .toBeUpdatedPhotoLabel:hover {
@@ -193,10 +219,11 @@ button {
 
 .toBeUpdatedPhotoLabel > div { 
     position: absolute;
-    top: 15vw;
+    top: 8vw;
     height: 10vw;
     margin-top: -5vw;
-    font-size: 3vw;
+    font-size: 1.5vw;
+    margin-left: vw;
 }
 
 .toBeUpdatedPhotoForm{
@@ -205,7 +232,7 @@ button {
 
 .toBeUpdatedPhotoButton {
     position: relative; 
-    top: 22vw;
+    top: 8.1vw;
     right: 0vw;
     background: var(--my-background);
     border-style:outset;
@@ -220,9 +247,13 @@ button {
 }
 
 .toBeUpdatedPhotoButton > div {
-    font-size: 3vw;
+    font-size: 1vw;
     color: white;
-    padding: 0.5vw;
+    padding:0;
+}
+
+.toBeUpdatedPhotoDiv {
+   width: 100%;
 }
 
 @media only screen and (max-width: 720px) {
