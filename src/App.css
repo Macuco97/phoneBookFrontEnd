@@ -91,7 +91,11 @@ button {
     opacity: 0.5;
     color: white;
     font-weight: 700;
+}
 
+.profileField > button:hover { 
+    color: red;
+    opacity: 1;
 }
 
 .infoField {
