@@ -22,7 +22,7 @@ function App() {
   const [currentRowToBeUpdated, setCurrentRowToBeUpdated] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
   const [test, settest] = useState()
-  const dataBaseUrl = "http://192.168.1.7:3001"
+  const dataBaseUrl = process.env.NODE_ENV == 'DEVELOPMENT' ?  "http://192.168.1.7:3001" : "https://phonebook-challenger.herokuapp.com/"
   
   let row 
   let rowKeys 
@@ -160,7 +160,6 @@ function App() {
 
   useEffect (() => {
     setLoadingImage(!loadingImage)
-    console.log(dataBaseRows)
   },[dataBaseRows])
 
   
@@ -189,7 +188,7 @@ function App() {
       }
       <div className = 'header'>
         <img className = 'addNewUserIco' src = {addItemIcon} alt = 'Icon Add User' onClick = {e => setCreateNewUserFormStatus(!createNewUserFormStatus)}/>
-        {loadingImage ? <img onClick = {() => console.log(loadingImage)} className = 'loadingIco' src = {loadingIco} alt = 'Loading Ico'/> : null}
+        {loadingImage ? <img className = 'loadingIco' src = {loadingIco} alt = 'Loading Ico'/> : null}
         <h3 className = 'title'>Phonebook</h3>
       </div>
       <div className = 'body'>
