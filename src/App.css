@@ -6,12 +6,12 @@
 
 body {
     background: var(--my-background);
-}
+} 
 
 li {
     font-size: 20px;
     color: white;
-    margin-left: 45vw;
+    margin-left: 8vw;
 }
 
 button { 
@@ -20,7 +20,6 @@ button {
 }
 
 .container {
-    
     min-height: 100vh;
     margin-top: 40px;
 }
@@ -62,17 +61,23 @@ button {
     
 }
 
+.body {
+    display: grid;
+    grid-template-areas: ". bodyField .";
+}
+
 .bodyField {
     color: white;
-    margin: 10px;
     display: grid;
-    grid-template-columns: 20vw 1fr;
+    grid-area: bodyField;
+    grid-template-columns: 10vw 20vw;
+
 }
 
 .profileImage {
     border-radius: 30%;
-    width: 25vw;
-    height: 25vw;
+    width: 15vw;
+    height: 15vw;
 }
 
 .profileField > button {
@@ -82,6 +87,11 @@ button {
     border: transparent;
     font-size: 17px;
     cursor: pointer;
+    z-index: 1;
+    opacity: 0.5;
+    color: white;
+    font-weight: 700;
+
 }
 
 .infoField {
@@ -91,8 +101,7 @@ button {
 
 .infoField > li {
     white-space: nowrap;
-    margin-left: 10vw;
-    font-size: 4vw;
+    font-size: 2vw;
 }
 
 .addNewUserForm { 
