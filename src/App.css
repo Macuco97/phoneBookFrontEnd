@@ -3,22 +3,52 @@
   --my-header: #999999;
 }
 
-.container {
+
+body {
     background: var(--my-background);
+}
+
+li {
+    font-size: 20px;
+    color: white;
+    margin-left: 45vw;
+}
+
+button { 
+    background: none;
+    border: none;
+}
+
+.container {
+    
     min-height: 100vh;
+    margin-top: 40px;
 }
 
 .header {
     background: var(--my-header);
-    position: relative;
+    position: fixed;
     height: 30px;
+    width: 100vw;
+    top: 0;
 }
 
-.header > img {
+.addNewUserIco {
+    position: relative;
     height: 25px;
     width: 25px;
     margin: 3px;
-    z-index: 10;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.loadingIco {
+    position: absolute;
+    z-index: 2;
+    margin: 3px;
+    height: 25px;
+    width: 25px;
+    right: 3vw;
 }
 
 .title {
@@ -27,7 +57,8 @@
     top: 15px;
     margin-top: -10px;
     width: 100%;
-    z-index: -1;
+    z-index: 1;
+    font-size: 20px;
     
 }
 
@@ -35,22 +66,33 @@
     color: white;
     margin: 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 20vw 1fr;
 }
 
 .profileImage {
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    border-radius: 30%;
+    width: 25vw;
+    height: 25vw;
+}
+
+.profileField > button {
+    position: absolute;
+    right: 2vw;
+    background: transparent;
+    border: transparent;
+    font-size: 17px;
+    cursor: pointer;
 }
 
 .infoField {
-    padding-top: 10%;
+    padding-top: 3vh;
     list-style-type: "\27A1  ";
 }
 
 .infoField > li {
     white-space: nowrap;
+    margin-left: 10vw;
+    font-size: 4vw;
 }
 
 .addNewUserForm { 
@@ -73,6 +115,128 @@
     border-style: none;
     width: 47%;
 }
+
+.fieldToBeUpdatedInput {
+    position: relative;
+    background: transparent;
+    margin-left: 10vw;
+    font-size: 4vw;
+    border-style: none none ridge ridge;
+    color: white;
+    padding-left: 3px;
+    width: 30vw;
+    top: -2vh;
+
+}
+
+.submitIco { 
+    position: relative;
+    width: 8vw;
+    height: 3vh;
+    left: 2vw;
+    cursor: pointer;
+    opacity: 0.5;
+    top: -2vh;
+}
+
+.submitIco:hover {
+    opacity: 1;
+}
+
+.xIco { 
+    position: relative;
+    width: 7vw;
+    height: 7vw;
+    left: 5vw;
+    cursor: pointer;
+    opacity: 0.5;
+    top: -2vh;
+}
+
+.xIco:hover { 
+    opacity: 1;
+}
+
+.toBeUpdatedPhotoInput {
+    display:none;
+}
+
+.toBeUpdatedPhotoLabel { 
+    position: relative;
+    display: block;
+    font-size: 5px;
+    background-color: var(--my-header);
+    border-radius: 50%;
+    width: 25vw;
+    height: 30vw;
+    text-align: center;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.toBeUpdatedPhotoLabel:hover {
+    opacity: 1;
+}
+
+.toBeUpdatedPhotoLabel > div { 
+    position: absolute;
+    top: 15vw;
+    height: 10vw;
+    margin-top: -5vw;
+    font-size: 3vw;
+}
+
+.toBeUpdatedPhotoForm{
+    position: relative;
+}   
+
+.toBeUpdatedPhotoButton {
+    position: relative; 
+    top: 22vw;
+    right: 0vw;
+    background: var(--my-background);
+    border-style:outset;
+    border-color: var(--my-background);
+    border-radius: 20%;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.toBeUpdatedPhotoButton:hover { 
+    opacity: 1;
+}
+
+.toBeUpdatedPhotoButton > div {
+    font-size: 3vw;
+    color: white;
+    padding: 0.5vw;
+}
+
+@media only screen and (max-width: 720px) {
+    
+    .addNewUserForm { 
+        position: fixed;
+        top: 29px;
+        background: var(--my-header);
+        width: 100vw;
+    }
+    
+    .addNewUserForm > input[type='file']{
+        width: 100%;
+    }
+
+    .infoField {
+        padding-top: 1.5vh;
+    }
+
+    .infoField > li {
+        margin-left: 13vw;
+    }
+
+    .fieldToBeUpdatedInput {
+        margin-left: 13vw;
+    }
+  }
 
 
 
