@@ -8,6 +8,11 @@ body {
     background: var(--my-background);
 } 
 
+.body {
+    display: grid; 
+    grid-template-columns: 1fr 1fr;
+}
+
 li {
     color: white;
     margin-left: 8vw;
@@ -29,6 +34,7 @@ button {
     height: 30px;
     width: 100vw;
     top: 0;
+    z-index: 1;
 }
 
 .addNewUserIco {
@@ -64,21 +70,23 @@ button {
     position: relative;
     color: white;
     display: grid;
-    grid-area: bodyField;
     grid-template-columns: 10vw 20vw;
-    padding-left: 29vw;
-
+    padding: 60px;
+    margin: 10px;
+    border-style: inset;
+    overflow: hidden;
+    background: #555555;
 }
 
 .profileImage {
-    border-radius: 30%;
+    border-radius: 50%;
     width: 15vw;
     height: 15vw;
 }
 
 .profileField > button {
     position: absolute;
-    right: 26vw;
+    right: 7vw;
     background: transparent;
     border: transparent;
     font-size: 2vw;

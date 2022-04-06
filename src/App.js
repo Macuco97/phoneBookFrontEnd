@@ -23,8 +23,10 @@ function App() {
   const [currentRowToBeUpdated, setCurrentRowToBeUpdated] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
   const [test, settest] = useState()
-  const dataBaseUrl = process.env.NODE_ENV == 'DEVELOPMENT' ?  "http://192.168.1.7:3001" : "https://phonebook-challenger.herokuapp.com/"
-  
+  const dataBaseUrl = process.env.NODE_ENV == 'development' ?  "http://192.168.1.7:3001" : "https://phonebook-challenger.herokuapp.com/"
+  console.log(process.env.NODE_ENV)
+
+
   let row 
   let rowKeys 
   let field
