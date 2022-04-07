@@ -92,10 +92,11 @@ button {
 
 .profileField > button {
     position: absolute;
-    right: 7vw;
+    right: 10px;
+    top: 0;
     background: transparent;
     border: transparent;
-    font-size: 2vw;
+    font-size: 30px;
     cursor: pointer;
     z-index: 1;
     opacity: 0.5;
@@ -122,29 +123,104 @@ button {
     position: fixed;
     top: 50vh;
     left: 50vw;
-    margin-left: -25vw;
-    margin-top: -25vh;
+    margin-left: -250px;
+    margin-top: -150px; 
     background: var(--my-header);
-    width: 50vw;
-    height: 30vh;
-    z-index: 2;
-    opacity: 1;
-    cursor: pointer;
+    width: 500px;
+    height: 300px;
+    z-index: 1;
+    border: outset;
+    border-width: 4px;
 }
 
 .addNewUserForm > * {
-    margin: 2px 2px 5px 5px;
+    font-size: 20px;
     display: block;
-    max-height: 300px;
-    background: transparent;  
-    border-style: none none solid solid;
     overflow: hidden;
-    opacity: 1;
+    width: 400px;
+    margin-left: 55px;
+    margin-top: 15px;
 }
 
-.addNewUserForm > input[type='file']{
-    border-style: none;
-    width: 47%;
+.addNewUserForm > *:nth-child(2) {
+    margin-top: 50px;
+    height: 40px;
+}
+
+.addNewUserForm > *:nth-child(2) > label {
+    background: none;
+}
+
+.addNewUserForm > * > label {
+    position: relative;
+    top: 3px;
+    color: white;
+    display: inline-block;
+    background: transparent;
+    width: 20%;
+    background: #333333;
+    height: 24.6px;
+    text-align: center;
+    padding-top: 3px;
+}
+
+.addNewUserForm > * > input {
+    background: transparent;
+    width: 70%;
+    padding: 4px;
+}
+
+.addNewUserForm > button {
+    display: inline-block;
+    position: relative;
+    left: 200px;
+    background: #333333;
+    width: 100px;   
+    margin-left: 0; 
+    color: white;
+}
+
+.AddNewUserxIco {
+    position: absolute;
+    font-size: 29px; 
+    font-weight: 900;
+    color: white;
+    right: 0.2vw;
+    margin: 0;
+    padding: 0;
+    width: 2vw;
+    opacity: 0.5;
+    cursor: pointer;
+    text-align: center;
+    background: #333333;
+    border-radius: 50%;
+    width: 34px;
+}
+
+.AddNewUserxIco:hover { 
+    opacity: 1;
+    color :red;
+}
+
+
+.uploadFotoInput { 
+    display: none;
+}
+
+
+
+.uploadFotoLabel > div { 
+    color: white;
+    border-style:outset;
+    background: #333333;
+    opacity: 0.5;
+    cursor: pointer;
+    text-align: center;
+    width: 400px;
+}
+
+.uploadFotoLabel > div:hover {
+    opacity: 1;
 }
 
 .addNewUserForm > button {
@@ -274,6 +350,85 @@ button {
 
 .toBeUpdatedPhotoDiv {
    width: 100%;
+}
+
+.updatedForm { 
+    background: var(--my-header);
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    width: 450px;
+    height:40px;
+    margin-left: -200px;
+    margin-top: -20px;
+    border-style: outset;
+    z-index: 2;
+}
+
+.updatedLabel {
+    display: inline-block;
+    background: #333333;
+    color: white;
+    width: 80px;
+    padding: 3px;
+    text-align: center;
+    text-transform: capitalize;
+    margin: 0;
+    margin-top: 9px;
+    margin-left: 10px;
+}
+
+.updatedInput { 
+    display: inline-block;
+    background-color: transparent;
+    position: relative;
+    width: 200px;
+    height: 21px;
+    font-size: 12px;
+    margin: 0;
+    padding-left: 3px;
+}
+
+.updatedButton {
+    position: relative;
+    left: 20px;
+    top: 1px;
+    background: #333333;
+    font-size: 15px;
+    padding: 3px;
+    color: white;
+    opacity: 0.5;
+    cursor: pointer;
+    border: outset;
+
+}
+
+.updatedButton:hover { 
+    opacity: 1;
+}
+
+.updatedButton:active {
+    background: green;
+}
+
+.updatedDiv {
+    display: inline-block;
+    background: #333333;
+    position: relative;
+    left: 30px;
+    color: white;
+    padding: 3px;
+    border: outset;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.updatedDiv:hover { 
+    opacity: 1;
+}
+
+.updatedDiv:active{
+    background: red;
 }
 
 @media only screen and (max-width: 720px) {

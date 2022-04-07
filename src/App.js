@@ -17,15 +17,13 @@ function App() {
   const [dataBase, setDataBase] = useState()
   const [dataBaseRows, setDataBaseRows] = useState()
   const [dataBaseFields, setDataBaseFields] = useState()
-  const [createNewUserFormStatus, setCreateNewUserFormStatus] = useState(false)
+  const [editMode, setEditMode] = useState(false)
   const [loadingImage, setLoadingImage] = useState(false)
   const [currentColumnToBeUpdated, setCurrentColumnToBeUpdated] = useState()
   const [currentRowToBeUpdated, setCurrentRowToBeUpdated] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
-  const [editMode, setEditMode] = useState(false)
+  const [pictureChosen, setPictureChosen] = useState()
   const dataBaseUrl = process.env.NODE_ENV == 'development' ?  "http://192.168.1.7:3001" : "https://phonebook-challenger.herokuapp.com/"
-  console.log(process.env.NODE_ENV)
-
 
   let row 
   let rowKeys 
@@ -59,7 +57,7 @@ function App() {
       }
     })
     if(elementsInputValue.indexOf("") === -1) {
-      setCreateNewUserFormStatus(!createNewUserFormStatus)
+      setEditMode(!editMode)
       Axios.post(dataBaseUrl, formData)
         .then(setLoadingImage(!loadingImage))
         .then(res => setDataBase(res.data))
@@ -90,16 +88,17 @@ function App() {
   }
 
   const updateNewUser = e => {
+    console.log(e)
     e.preventDefault()
-    const event = e.target.toBeUpdatedInput
-    const toBeUpdatedInputValue = event.value
+    const event = e.target.updatedInput
+    const updatedInputValue = event.value
     const axiosInfosSetup = {
-      newValue: toBeUpdatedInputValue,
+      newValue: updatedInputValue,
       lineKey: currentRowToBeUpdated,
       lineChange: currentColumnToBeUpdated
     }
 
-    if (toBeUpdatedInputValue) {
+    if (updatedInputValue) {
       Axios.put(dataBaseUrl, axiosInfosSetup)
         .then(setLoadingImage(!loadingImage))
         .then(res => setDataBase(res.data))
@@ -109,7 +108,7 @@ function App() {
       alert('Please fill input with some information')
       setKeysInState("", "")
     }
-    
+    setEditMode(!editMode)
   }
 
   const updateNewPhoto = e => {
@@ -169,34 +168,96 @@ function App() {
 
   return (
     <>
-      {
-      createNewUserFormStatus &&
-      <form className = {'addNewUserForm'} onSubmit = {e => createNewUser(e)}>
-        <input className = 'uploadFotoInput' name = 'foto' id = 'foto' type = 'file'></input>
-        <input 
-          placeholder='Type your name here'
-          name = 'nome'
-        />
-        <input 
-          placeholder = 'Type your name phone here'
-          name = 'telefone'
-          />
-        <input 
-          placeholder = 'Type your email here'
-          name = 'email'
-          />
-        <button>Create</button>
+        <img className = 'loadingIco' src = {loadingIco} alt = 'Loading Ico'/>
+        {
+        editMode &&
+        <form 
+        className = {currentRowToBeUpdated ? `updatedForm` : 'addNewUserForm'} 
+        onSubmit = {e => {
+          if(currentRowToBeUpdated) {
+            updateNewUser(e)
+          }
+          else {
+            createNewUser(e)
+          }
+          
+          }}>
+          {
+          currentRowToBeUpdated ? 
+          <>
+            <label className = {'updatedLabel'} for = {currentColumnToBeUpdated} >{currentColumnToBeUpdated}</label>
+            <input name = 'updatedInput' className = {`updatedInput`} id = {currentColumnToBeUpdated}/>
+            <button 
+            type = 'submit'
+            className = {`updatedButton`}
+            >Update</button>
+            <div className = {`updatedDiv`}
+            onClick = {e => {
+              setEditMode(!editMode)
+              setKeysInState("", "")
+            }}
+            >Close</div>
+          </>
+          :
+          <>
+            <div className = {"AddNewUserxIco"} onClick = {e => setEditMode(!editMode)}>X</div>
+            <div>
+              <label 
+              class = {'uploadFotoLabel'} 
+              for = 'uploadFotoInput'><div
+                                        >{pictureChosen ? pathToFileName(pictureChosen) : "Choose your picture here"}
+                                        </div>
+              </label>
+              <input 
+                                        onChange={e => setPictureChosen(e.target.value)} 
+                                        className = 'uploadFotoInput' 
+                                        name = 'foto' 
+                                        id = 'uploadFotoInput' 
+                                        type = 'file'/>
+            </div>
+            <div>
+              <label for = 'nome'>Nome</label>
+              <input
+                placeholder='Type your name here'
+                id = 'nome'
+                name = 'nome'
+              />
+            </div>
+            <div>
+              <label
+              for = 'phone'
+              >Telefone
+              </label>
+              <input 
+                placeholder = 'Type your name phone here'
+                id = 'phone'
+                name = 'telefone'
+                />
+            </div>  
+            <div>
+            <label
+                for = 'email'
+                >E-mail
+                </label>
+                <input 
+                placeholder = 'Type your email here'
+                id = 'email'
+                name = 'email'
+                />
+            </div>
+            <button>Create</button>
+          </>
+      }
       </form>
       }
       <div className = {'container', editMode && 'editMode'} >
         <div className = 'header'>
           <img className = 'addNewUserIco' src = {addItemIcon} alt = 'Icon Add User' onClick = {e => {
-            setCreateNewUserFormStatus(!createNewUserFormStatus)
             setEditMode(!editMode)
+            setKeysInState("", "")
               }
             }
             />
-          {loadingImage ? <img className = 'loadingIco' src = {loadingIco} alt = 'Loading Ico'/> : null}
           <h3 className = 'title'>Phonebook</h3>
         </div>
         <div className = 'body'>
@@ -239,21 +300,19 @@ function App() {
                       field = row[key]
                       primaryKey = row.telefone
                       if(key != "foto") {
-                        if(currentColumnToBeUpdated === key && currentRowToBeUpdated === row.telefone) {
                           return (
-                            <form onSubmit = {e => updateNewUser(e)}>
-                              <input name = 'toBeUpdatedInput' className = 'fieldToBeUpdatedInput'/>
-                              <button className ='submitButton'><img  className = 'submitIco' alt = 'submitIco' src = {submitIco} /></button>
-                              <img className = 'xIco' alt = 'submitIco' src = {xIco} onClick = {e => {setKeysInState("", "")}} />
-                            </form>
-                          )
-                        }
-                        else {
-                          return (
-                            <li key = {key}>{field}<img onDoubleClick = {e => setKeysInState(row.telefone, key)} className = 'editIco' alt = 'Edit Ico' src = {editIco}/></li>
-                          )
-                        }
-                        
+                            <li 
+                            key = {key}
+                            >{field}<img 
+                                    onClick = {e => {
+                                      setKeysInState(row.telefone, key)
+                                      setEditMode(!editMode)
+                                    }} 
+                                    className = 'editIco' 
+                                    alt = 'Edit Ico' 
+                                    src = {editIco}/>
+                            </li>
+                          )                       
                       }
                     } )
                   }
