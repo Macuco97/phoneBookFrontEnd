@@ -22,7 +22,7 @@ function App() {
   const [currentColumnToBeUpdated, setCurrentColumnToBeUpdated] = useState()
   const [currentRowToBeUpdated, setCurrentRowToBeUpdated] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
-  const [test, settest] = useState()
+  const [editMode, setEditMode] = useState(false)
   const dataBaseUrl = process.env.NODE_ENV == 'development' ?  "http://192.168.1.7:3001" : "https://phonebook-challenger.herokuapp.com/"
   console.log(process.env.NODE_ENV)
 
@@ -168,11 +168,10 @@ function App() {
   
 
   return (
-    <div className = 'container'>
-
+    <>
       {
       createNewUserFormStatus &&
-      <form className = 'addNewUserForm' onSubmit = {e => createNewUser(e)}>
+      <form className = {'addNewUserForm'} onSubmit = {e => createNewUser(e)}>
         <input className = 'uploadFotoInput' name = 'foto' id = 'foto' type = 'file'></input>
         <input 
           placeholder='Type your name here'
@@ -189,80 +188,87 @@ function App() {
         <button>Create</button>
       </form>
       }
-      <div className = 'header'>
-        <img className = 'addNewUserIco' src = {addItemIcon} alt = 'Icon Add User' onClick = {e => setCreateNewUserFormStatus(!createNewUserFormStatus)}/>
-        {loadingImage ? <img className = 'loadingIco' src = {loadingIco} alt = 'Loading Ico'/> : null}
-        <h3 className = 'title'>Phonebook</h3>
-      </div>
-      <div className = 'body'>
-        {
-        dataBaseRows && dataBaseRows.map( row => {
-          rowKeys = Object.keys(row)
-          return (
-            <div className = 'bodyField'>
-              <div className = 'profileField'>
-                <button name = {row.telefone} onClick = {e => deleteNewUser(e)}>X</button>
-                {
-                  (currentColumnToBeUpdated === "foto" && currentRowToBeUpdated === row.telefone) ?
-                  <form className = 'toBeUpdatedPhotoForm' onSubmit = {e => updateNewPhoto(e)}>
-                    <label for = 'toBeUpdatedPhotoInput' className = 'toBeUpdatedPhotoLabel'>                    
-                      <div className = {newPhotoToBeUpdated && 'toBeUpdatedPhotoDiv'}>
-                        {
-                          newPhotoToBeUpdated ?
-                          newPhotoToBeUpdated
-                          :
-                          "Click here for Upload a New Photo"
-                        }
-                      </div>
-                      <button className = 'toBeUpdatedPhotoButton'><div>Send</div></button>
-                    </label>
-                    <input onChange = {e => setNewPhotoToBeUpdated(pathToFileName(e.target.value))} name = 'photo' id = 'toBeUpdatedPhotoInput' className = 'toBeUpdatedPhotoInput' type = 'file'/>
-                    
-                  </form>
-                  :
-                  <img 
-                    className = 'profileImage' 
-                    alt = 'profileImage' 
-                    src = {`data:image/png;base64,${row.foto}`}
-                    onDoubleClick = { () => {setKeysInState(row.telefone, "foto")} }
-                  />
-                }
-              </div>
-              <ul className = 'infoField'>
-                {
-                  rowKeys.map( key => {
-                    field = row[key]
-                    primaryKey = row.telefone
-                    if(key != "foto") {
-                      if(currentColumnToBeUpdated === key && currentRowToBeUpdated === row.telefone) {
-                        return (
-                          <form onSubmit = {e => updateNewUser(e)}>
-                            <input name = 'toBeUpdatedInput' className = 'fieldToBeUpdatedInput'/>
-                            <button className ='submitButton'><img  className = 'submitIco' alt = 'submitIco' src = {submitIco} /></button>
-                            <img className = 'xIco' alt = 'submitIco' src = {xIco} onClick = {e => {setKeysInState("", "")}} />
-                          </form>
-                        )
-                      }
-                      else {
-                        return (
-                          <li key = {key}>{field}<img onDoubleClick = {e => setKeysInState(row.telefone, key)} className = 'editIco' alt = 'Edit Ico' src = {editIco}/></li>
-                        )
-                      }
+      <div className = {'container', editMode && 'editMode'} >
+        <div className = 'header'>
+          <img className = 'addNewUserIco' src = {addItemIcon} alt = 'Icon Add User' onClick = {e => {
+            setCreateNewUserFormStatus(!createNewUserFormStatus)
+            setEditMode(!editMode)
+              }
+            }
+            />
+          {loadingImage ? <img className = 'loadingIco' src = {loadingIco} alt = 'Loading Ico'/> : null}
+          <h3 className = 'title'>Phonebook</h3>
+        </div>
+        <div className = 'body'>
+          {
+          dataBaseRows && dataBaseRows.map( row => {
+            rowKeys = Object.keys(row)
+            return (
+              <div className = 'bodyField'>
+                <div className = 'profileField'>
+                  <button name = {row.telefone} onClick = {e => deleteNewUser(e)}>X</button>
+                  {
+                    (currentColumnToBeUpdated === "foto" && currentRowToBeUpdated === row.telefone) ?
+                    <form className = 'toBeUpdatedPhotoForm' onSubmit = {e => updateNewPhoto(e)}>
+                      <label for = 'toBeUpdatedPhotoInput' className = 'toBeUpdatedPhotoLabel'>                    
+                        <div className = {newPhotoToBeUpdated && 'toBeUpdatedPhotoDiv'}>
+                          {
+                            newPhotoToBeUpdated ?
+                            newPhotoToBeUpdated
+                            :
+                            "Click here for Upload a New Photo"
+                          }
+                        </div>
+                        <button className = 'toBeUpdatedPhotoButton'><div>Send</div></button>
+                      </label>
+                      <input onChange = {e => setNewPhotoToBeUpdated(pathToFileName(e.target.value))} name = 'photo' id = 'toBeUpdatedPhotoInput' className = 'toBeUpdatedPhotoInput' type = 'file'/>
                       
-                    }
-                  } )
-                }
-                
-              </ul> 
-             
-                
-            </div>
-          )
-        } )
-        }
+                    </form>
+                    :
+                    <img 
+                      className = 'profileImage' 
+                      alt = 'profileImage' 
+                      src = {`data:image/png;base64,${row.foto}`}
+                      onDoubleClick = { () => {setKeysInState(row.telefone, "foto")} }
+                    />
+                  }
+                </div>
+                <ul className = 'infoField'>
+                  {
+                    rowKeys.map( key => {
+                      field = row[key]
+                      primaryKey = row.telefone
+                      if(key != "foto") {
+                        if(currentColumnToBeUpdated === key && currentRowToBeUpdated === row.telefone) {
+                          return (
+                            <form onSubmit = {e => updateNewUser(e)}>
+                              <input name = 'toBeUpdatedInput' className = 'fieldToBeUpdatedInput'/>
+                              <button className ='submitButton'><img  className = 'submitIco' alt = 'submitIco' src = {submitIco} /></button>
+                              <img className = 'xIco' alt = 'submitIco' src = {xIco} onClick = {e => {setKeysInState("", "")}} />
+                            </form>
+                          )
+                        }
+                        else {
+                          return (
+                            <li key = {key}>{field}<img onDoubleClick = {e => setKeysInState(row.telefone, key)} className = 'editIco' alt = 'Edit Ico' src = {editIco}/></li>
+                          )
+                        }
+                        
+                      }
+                    } )
+                  }
+                  
+                </ul> 
+              
+                  
+              </div>
+            )
+          } )
+          }
+        </div>
+            
       </div>
-          
-    </div>
+    </> 
   )
 }
 

@@ -3,6 +3,10 @@
   --my-header: #999999;
 }
 
+.editMode{ 
+    opacity: 0.1;
+    cursor: not-allowed;
+}
 
 body {
     background: var(--my-background);
@@ -11,6 +15,7 @@ body {
 .body {
     display: grid; 
     grid-template-columns: 1fr 1fr;
+    padding-top: 5vh;
 }
 
 li {
@@ -73,7 +78,8 @@ button {
     grid-template-columns: 10vw 20vw;
     padding: 60px;
     margin: 10px;
-    border-style: inset;
+    border-style: outset;
+    border-color: #333333;
     overflow: hidden;
     background: #555555;
 }
@@ -114,11 +120,16 @@ button {
 
 .addNewUserForm { 
     position: fixed;
-    top: 29px;
+    top: 50vh;
+    left: 50vw;
+    margin-left: -25vw;
+    margin-top: -25vh;
     background: var(--my-header);
-    width: 190px;
-    border-radius: 0% 5% 5% 5%;
+    width: 50vw;
+    height: 30vh;
     z-index: 2;
+    opacity: 1;
+    cursor: pointer;
 }
 
 .addNewUserForm > * {
@@ -128,6 +139,7 @@ button {
     background: transparent;  
     border-style: none none solid solid;
     overflow: hidden;
+    opacity: 1;
 }
 
 .addNewUserForm > input[type='file']{
