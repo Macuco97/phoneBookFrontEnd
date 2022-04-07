@@ -17,8 +17,8 @@ function App() {
   const [dataBase, setDataBase] = useState()
   const [dataBaseRows, setDataBaseRows] = useState()
   const [dataBaseFields, setDataBaseFields] = useState()
-  const [editMode, setEditMode] = useState(false)
-  const [loadingImage, setLoadingImage] = useState(false)
+  const [editMode, setEditMode] = useState()
+  const [loadingImage, setLoadingImage] = useState()
   const [currentColumnToBeUpdated, setCurrentColumnToBeUpdated] = useState()
   const [currentRowToBeUpdated, setCurrentRowToBeUpdated] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
@@ -40,6 +40,7 @@ function App() {
   const fetchDataBaseFromSql = url => {
   Axios.get(dataBaseUrl)
     .then(setLoadingImage(!loadingImage))
+    .then(setEditMode(!editMode))
     .then(res => setDataBase(res.data))
     .catch(err => console.log(err))
   }
@@ -57,7 +58,6 @@ function App() {
       }
     })
     if(elementsInputValue.indexOf("") === -1) {
-      setEditMode(!editMode)
       Axios.post(dataBaseUrl, formData)
         .then(setLoadingImage(!loadingImage))
         .then(res => setDataBase(res.data))
@@ -82,13 +82,13 @@ function App() {
 
     })
       .then(setLoadingImage(!loadingImage))
+      .then(setEditMode(!editMode))
       .then(res => setDataBase(res.data))
       .catch(err => console.log(err))
       
   }
 
   const updateNewUser = e => {
-    console.log(e)
     e.preventDefault()
     const event = e.target.updatedInput
     const updatedInputValue = event.value
@@ -108,7 +108,6 @@ function App() {
       alert('Please fill input with some information')
       setKeysInState("", "")
     }
-    setEditMode(!editMode)
   }
 
   const updateNewPhoto = e => {
@@ -121,7 +120,7 @@ function App() {
     formData.append('lineKey', currentRowToBeUpdated)
     formData.append('lineChange', currentColumnToBeUpdated)
     Axios.put(dataBaseUrl, formData)
-      .then(setLoadingImage(!loadingImage))
+      .then(setEditMode(!editMode))
       .then(res => setDataBase(res.data))
       .then(() => setKeysInState("", ""))
       .catch(err => console.log(err))
@@ -160,13 +159,20 @@ function App() {
     }
   },[dataBase])
 
-  useEffect (() => {
-    setEditMode(!editMode)
-  }, [loadingImage])
 
   useEffect (() => {
     setLoadingImage(!loadingImage)
+    setEditMode(!editMode)
   },[dataBaseRows])
+
+  useEffect(() => {
+    console.log('editMode', editMode)
+    setPictureChosen(undefined)
+  },[editMode])
+
+  useEffect (() => {
+    console.log('loadingImage', loadingImage)
+  }, [loadingImage])
 
   
 
