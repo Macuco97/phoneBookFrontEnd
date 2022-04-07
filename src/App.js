@@ -161,6 +161,10 @@ function App() {
   },[dataBase])
 
   useEffect (() => {
+    setEditMode(!editMode)
+  }, [loadingImage])
+
+  useEffect (() => {
     setLoadingImage(!loadingImage)
   },[dataBaseRows])
 
@@ -168,9 +172,9 @@ function App() {
 
   return (
     <>
-        <img className = 'loadingIco' src = {loadingIco} alt = 'Loading Ico'/>
+      {loadingImage && <img className = 'loadingIco' src = {loadingIco} alt = 'Loading Ico'/>}
         {
-        editMode &&
+        (editMode && !loadingImage) &&
         <form 
         className = {currentRowToBeUpdated ? `updatedForm` : 'addNewUserForm'} 
         onSubmit = {e => {
@@ -303,7 +307,7 @@ function App() {
                           return (
                             <li 
                             key = {key}
-                            >{field}<img 
+                            ><span className = {`infoFieldKey`}>{key}</span><span className = {`infoFieldField`}>{field}</span><img 
                                     onClick = {e => {
                                       setKeysInState(row.telefone, key)
                                       setEditMode(!editMode)
