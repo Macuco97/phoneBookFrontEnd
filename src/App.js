@@ -23,7 +23,9 @@ function App() {
   const [currentRowToBeUpdated, setCurrentRowToBeUpdated] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
   const [pictureChosen, setPictureChosen] = useState()
+  const environment = process.env.ENVIRONMENT
   const dataBaseUrl = "https://phonebook-challenger.herokuapp.com/"
+  console.log(process.env)
 
   let row 
   let rowKeys 
@@ -268,7 +270,7 @@ function App() {
               }
             }
             />
-          <h3 className = 'title'>Phonebook</h3>
+          <h3 className = 'title'>Phonebook {environment}</h3>
         </div>
         <div className = 'body'>
           {
