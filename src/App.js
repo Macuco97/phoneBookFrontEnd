@@ -134,22 +134,13 @@ function App() {
     
   }
 
-  const extentionJpegChecker = e => {
-    let extention = e.target.value.split(".")
-    extention = extention[extention.length - 1]
-    if (extention !== "jpeg") {
-      e.target.value = ""
-      alert("Please, import a file that has the extension jpeg")
-    }
-  }
-
+ 
   const setKeysInState = (primaryKey, field) => {
     setCurrentColumnToBeUpdated(field)
     setCurrentRowToBeUpdated (primaryKey)
   }
 
   
-
   useEffect (() => {
     fetchDataBaseFromSql(dataBaseUrl)
   }, [])
