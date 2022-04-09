@@ -20,7 +20,7 @@ body {
 
 li {
     color: white;
-    margin-left: 8vw;
+    margin-left: 5vw;
 }
 
 button { 
@@ -78,19 +78,22 @@ button {
     position: relative;
     color: white;
     display: grid;
-    grid-template-columns: 10vw 20vw;
+    grid-template-columns: 1fr 1fr;
     padding: 10px;
     margin: 10px;
     border-style: outset;
     border-color: #333333;
     overflow: hidden;
     background: #555555;
+    max-height: 148px;
+    max-width: 380px;
 }
 
 .profileImage {
+    position: relative;
     border-radius: 50%;
-    width: 15vw;
-    height: 15vw;
+    width: 110px;
+    height: 144px;
 }
 
 .profileField > button {
@@ -114,12 +117,12 @@ button {
 
 .infoField > li {
     white-space: nowrap;
-    font-size: 2vw;
+    font-size: 14px;
     list-style-type: none;
     position: relative;
-    top: 35px;
-    left: -30px;
-    margin-bottom: 2px;
+    top: 13px;
+    right: 30px;
+    margin-bottom: 15px;
 
 }
 
@@ -284,9 +287,9 @@ button {
 }
 
 .editIco { 
-    width: 1.2vw;
-    height: 1.2vw;
-    margin-left: 0.7vw;
+    width: 12px;
+    height: 12px;
+    margin-left: 5px;
     opacity: 0.5;
     cursor: pointer;
 }
@@ -452,13 +455,76 @@ button {
     background: red;
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 360px) {
+    
+    .body {
+        grid-template-columns: 1fr;
+    }
+
+    .infoField > li {
+        top: -4px;
+    }
     
     .addNewUserForm { 
         position: fixed;
-        top: 29px;
-        background: var(--my-header);
-        width: 100vw;
+        width: 300px;
+        margin-left: -150px;
+        height: 160px;
+        padding: 0;
+
+    }
+
+    .addNewUserForm > * {
+        width: 100%;
+        font-size: 10px;
+        margin: 0;
+        padding: 0;
+        margin-left: 10px;
+    }
+
+    .addNewUserForm > *:nth-child(2){
+        margin-top: 0;
+    }
+
+    .addNewUserForm > button {
+        width: 50px;
+        left: 135px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        margin-top: 10px;
+    }
+
+    .uploadFotoLabel > div { 
+        width: 200px;
+        margin-left: 45px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        opacity: 1;
+    }
+
+    .addNewUserForm > * > label {
+        font-size: 15px;
+        padding-top: 5px;
+    }
+
+    .addNewUserForm > * > input {
+        position: relative;
+        top: 3px;
+    }
+
+    .AddNewUserxIco {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        right: 0;
+        top: 5px;
+        background: transparent;
+        color: red;
+    }
+
+
+    .profileField > button {
+        font-size: 24px;
     }
     
     .addNewUserForm > input[type='file']{
@@ -470,12 +536,18 @@ button {
     }
 
     .infoField > li {
-        margin-left: 13vw;
+        margin-left: 5vw;
     }
 
     .fieldToBeUpdatedInput {
         margin-left: 13vw;
     }
+
+    .profileImage { 
+       display: none;
+    }
+
+
   }
 
 
