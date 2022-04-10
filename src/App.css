@@ -16,11 +16,8 @@ body {
     display: grid; 
     grid-template-columns: 1fr 1fr;
     padding-top: 5vh;
-}
-
-li {
-    color: white;
-    margin-left: 5vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
 }
 
 button { 
@@ -78,7 +75,7 @@ button {
     position: relative;
     color: white;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 130px 1fr;
     padding: 10px;
     margin: 10px;
     border-style: outset;
@@ -86,7 +83,7 @@ button {
     overflow: hidden;
     background: #555555;
     max-height: 148px;
-    max-width: 380px;
+    width: 370px;
 }
 
 .profileImage {
@@ -121,7 +118,7 @@ button {
     list-style-type: none;
     position: relative;
     top: 13px;
-    right: 30px;
+    right: 10px;
     margin-bottom: 15px;
 
 }
@@ -455,14 +452,24 @@ button {
     background: red;
 }
 
-@media only screen and (max-width: 360px) {
+@media only screen and (max-width: 720px) {
     
     .body {
         grid-template-columns: 1fr;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .bodyField {
+        position: relative;
+        display: block;
+        width: 300px;
+        margin-left: 20px;
     }
 
     .infoField > li {
         top: -4px;
+        margin: 0;
     }
     
     .addNewUserForm { 
@@ -522,6 +529,9 @@ button {
         color: red;
     }
 
+    .profileField {
+        display: none;
+    }    
 
     .profileField > button {
         font-size: 24px;
@@ -549,7 +559,6 @@ button {
 
 
   }
-
 
 
 
