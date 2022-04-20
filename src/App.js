@@ -189,30 +189,35 @@ function App() {
 						<button type="submit" class="btn btn-dark mb-3">Create New User</button>
 					</form>
 					<div className = 'h-100 text-white col-6 '>
+						<div className = 'card-group'>
 						{
 							dataBaseRows && dataBaseRows.map(row => {
 								return (
-									<div className = 'border card bg-dark'>
-										<img 
-										className = 'card-img-top' 
-										alt = 'profileImage' 
-										src = {`data:image/png;base64,${row.foto}`}
-										/*onDoubleClick = { () => {setKeysInState(row.telefone, "foto")} }*/
-										/>
-										<h5>
-											{row.nome}
-										</h5>
-										<ul>
-										<ul class="list-group list-group-flush">
-    											<li class="list-group-item bg-dark text-white"><strong>Telefone: </strong>{row.telefone}</li>
-    											<li class="list-group-item bg-dark text-white"><strong>E-mail: </strong>{row.email}</li>
-  										</ul>
-										</ul>
+									 	<div className = 'm-3 card bg-secondary text-white' >
+												<img 
+												className="card-img-top"
+												alt = 'profileImage' 
+												src = {`data:image/png;base64,${row.foto}`}
+												/*onDoubleClick = { () => {setKeysInState(row.telefone, "foto")} }*/
+												/>
+											<div className = 'card-body px-1 py-0 mt-1'>
+												<h5 className = 'card-title m-0'>
+													{row.nome}
+												</h5>
+											</div>
+											
+											<ul class="list-group list-group-flush">
+													<li class="list-group-item list-group-item-secondary list-group-item-action">An item</li>
+													<li class="list-group-item list-group-item-secondary list-group-item-action">A second item</li>
 
-									</div>
+											</ul>							
+                    							</div>
+									
 								)
 							})
 						}
+            				</div>
+            
 					</div>			
 				</div>
 				
