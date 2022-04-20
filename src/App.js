@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import Axios from "axios"
 import React, { useState, useEffect } from "react"
 import addItemIcon from "./addItemIcon.png"
@@ -26,11 +27,6 @@ function App() {
   const environment = process.env.ENVIRONMENT
   const dataBaseUrl = "https://phonebook-challenger.herokuapp.com/"
   console.log(process.env)
-
-  let row 
-  let rowKeys 
-  let field
-  let primaryKey
   
   const pathToFileName = path => {
     const pathArray = path.split("\\")
@@ -171,165 +167,56 @@ function App() {
 
   return (
     <>
-      {loadingImage && <img className = 'loadingIco' src = {loadingIco} alt = 'Loading Ico'/>}
-        {
-        (editMode && !loadingImage) &&
-        <form 
-        className = {currentRowToBeUpdated ? `updatedForm` : 'addNewUserForm'} 
-        onSubmit = {e => {
-          if(currentRowToBeUpdated) {
-            updateNewUser(e)
-          }
-          else {
-            createNewUser(e)
-          }
-          
-          }}>
-          {
-          currentRowToBeUpdated ? 
-          <>
-            <label className = {'updatedLabel'} for = {currentColumnToBeUpdated} >{currentColumnToBeUpdated}</label>
-            <input name = 'updatedInput' className = {`updatedInput`} id = {currentColumnToBeUpdated}/>
-            <button 
-            type = 'submit'
-            className = {`updatedButton`}
-            >Update</button>
-            <div className = {`updatedDiv`}
-            onClick = {e => {
-              setEditMode(!editMode)
-              setKeysInState("", "")
-            }}
-            >Close</div>
-          </>
-          :
-          <>
-            <div className = {"AddNewUserxIco"} onClick = {e => setEditMode(!editMode)}>X</div>
-            <div>
-              <label 
-              class = {'uploadFotoLabel'} 
-              for = 'uploadFotoInput'><div
-                                        >{pictureChosen ? pathToFileName(pictureChosen) : "Choose your picture here"}
-                                        </div>
-              </label>
-              <input 
-                                        onChange={e => setPictureChosen(e.target.value)} 
-                                        className = 'uploadFotoInput' 
-                                        name = 'foto' 
-                                        id = 'uploadFotoInput' 
-                                        type = 'file'/>
-            </div>
-            <div>
-              <label for = 'nome'>Nome</label>
-              <input
-                placeholder='Type your name here'
-                id = 'nome'
-                name = 'nome'
-              />
-            </div>
-            <div>
-              <label
-              for = 'phone'
-              >Telefone
-              </label>
-              <input 
-                placeholder = 'Type your name phone here'
-                id = 'phone'
-                name = 'telefone'
-                />
-            </div>  
-            <div>
-            <label
-                for = 'email'
-                >E-mail
-                </label>
-                <input 
-                placeholder = 'Type your email here'
-                id = 'email'
-                name = 'email'
-                />
-            </div>
-            <button>Create</button>
-          </>
-      }
-      </form>
-      }
-      <div className = {'container', editMode && 'editMode'} >
-        <div className = 'header'>
-          <img className = 'addNewUserIco' src = {addItemIcon} alt = 'Icon Add User' onClick = {e => {
-            setEditMode(!editMode)
-            setKeysInState("", "")
-              }
-            }
-            />
-          <h3 className = 'title'>Phonebook {environment}</h3>
-        </div>
-        <div className = 'body'>
-          {
-          dataBaseRows && dataBaseRows.map( row => {
-            rowKeys = Object.keys(row)
-            return (
-              <div className = 'bodyField'>
-                <div className = 'profileField'>
-                  <button name = {row.telefone} onClick = {e => deleteNewUser(e)}>X</button>
-                  {
-                    (currentColumnToBeUpdated === "foto" && currentRowToBeUpdated === row.telefone) ?
-                    <form className = 'toBeUpdatedPhotoForm' onSubmit = {e => updateNewPhoto(e)}>
-                      <label for = 'toBeUpdatedPhotoInput' className = 'toBeUpdatedPhotoLabel'>                    
-                        <div className = {newPhotoToBeUpdated && 'toBeUpdatedPhotoDiv'}>
-                          {
-                            newPhotoToBeUpdated ?
-                            newPhotoToBeUpdated
-                            :
-                            "Click here for Upload a New Photo"
-                          }
-                        </div>
-                        <button className = 'toBeUpdatedPhotoButton'><div>Send</div></button>
-                      </label>
-                      <input onChange = {e => setNewPhotoToBeUpdated(pathToFileName(e.target.value))} name = 'photo' id = 'toBeUpdatedPhotoInput' className = 'toBeUpdatedPhotoInput' type = 'file'/>
-                      
-                    </form>
-                    :
-                    <img 
-                      className = 'profileImage' 
-                      alt = 'profileImage' 
-                      src = {`data:image/png;base64,${row.foto}`}
-                      onDoubleClick = { () => {setKeysInState(row.telefone, "foto")} }
-                    />
-                  }
-                </div>
-                <ul className = 'infoField'>
-                  {
-                    rowKeys.map( key => {
-                      field = row[key]
-                      primaryKey = row.telefone
-                      if(key != "foto") {
-                          return (
-                            <li 
-                            key = {key}
-                            ><span className = {`infoFieldKey`}>{key}</span><span className = {`infoFieldField`}>{field}</span><img 
-                                    onClick = {e => {
-                                      setKeysInState(row.telefone, key)
-                                      setEditMode(!editMode)
-                                    }} 
-                                    className = 'editIco' 
-                                    alt = 'Edit Ico' 
-                                    src = {editIco}/>
-                            </li>
-                          )                       
-                      }
-                    } )
-                  }
-                  
-                </ul> 
-              
-                  
-              </div>
-            )
-          } )
-          }
-        </div>
-            
-      </div>
+		<div className = ' vh-100 container-fluid bg-dark'>
+				<div className = 'row h-100'>
+					<form className = 'py-5 bg-secondary col-3'>
+						<h5>Create New User</h5>
+						<div className = 'input-group my-3'>
+							<input type="file" className="d-block form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload"/>
+						</div>
+						<div className = 'input-group my-3'>
+							<span className="d-block input-group-text" id="addon-wrapping">Name</span>
+							<input type="text" className="form-control" placeholder="Name" aria-label="Username" aria-describedby="addon-wrapping"></input>
+						</div>
+						<div className = 'input-group my-3'>
+							<span className="d-block input-group-text" id="addon-wrapping">Phone</span>
+							<input type="text" className="form-control" placeholder="Phone" aria-label="Username" aria-describedby="addon-wrapping"></input>
+						</div>
+						<div className = 'input-group my-3'>
+							<span className="d-block input-group-text" id="addon-wrapping">E-mail</span>
+							<input type="text" className="form-control" placeholder="E-mail" aria-label="Username" aria-describedby="addon-wrapping"></input>
+						</div>
+						<button type="submit" class="btn btn-dark mb-3">Create New User</button>
+					</form>
+					<div className = 'h-100 text-white col-6 '>
+						{
+							dataBaseRows && dataBaseRows.map(row => {
+								return (
+									<div className = 'border card bg-dark'>
+										<img 
+										className = 'card-img-top' 
+										alt = 'profileImage' 
+										src = {`data:image/png;base64,${row.foto}`}
+										/*onDoubleClick = { () => {setKeysInState(row.telefone, "foto")} }*/
+										/>
+										<h5>
+											{row.nome}
+										</h5>
+										<ul>
+										<ul class="list-group list-group-flush">
+    											<li class="list-group-item bg-dark text-white"><strong>Telefone: </strong>{row.telefone}</li>
+    											<li class="list-group-item bg-dark text-white"><strong>E-mail: </strong>{row.email}</li>
+  										</ul>
+										</ul>
+
+									</div>
+								)
+							})
+						}
+					</div>			
+				</div>
+				
+		</div>
     </> 
   )
 }
