@@ -186,12 +186,12 @@ function App() {
 						</div>
 						<button type="submit" class="btn btn-dark mb-3">Create New User</button>
 					</form>
-					<div className = 'h-100 text-white col-6 '>
-						<div className = 'row row-cols-1 row-cols-md-2 g-4'>
+					<div className = 'h-100 text-white col-6 gx-5 gy-2'>
+						<div className = 'row row-cols-2'>
 						{
 							dataBaseRows && dataBaseRows.map(row => {
 								return (
-									 	<div className = 'm-3 card bg-secondary text-white' >
+									 	<div className = 'm-0 p-0 card bg-secondary text-white' >
 												<img 
 												className="card-img-top"
 												alt = 'profileImage' 
@@ -216,7 +216,7 @@ function App() {
 													})
 												}
 											</ul>							
-                    							</div>
+                  	</div>
 									
 								)
 							})
