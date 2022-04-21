@@ -24,9 +24,7 @@ function App() {
   const [currentRowToBeUpdated, setCurrentRowToBeUpdated] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
   const [pictureChosen, setPictureChosen] = useState()
-  const environment = process.env.ENVIRONMENT
-  const dataBaseUrl = "https://phonebook-challenger.herokuapp.com/"
-  console.log(process.env)
+  const dataBaseUrl = "http://localhost:3001"
   
   const pathToFileName = path => {
     const pathArray = path.split("\\")
@@ -62,7 +60,7 @@ function App() {
         .catch(err => console.log(err))
     }
     else {
-      alert("Please, fill all inputs")
+      alert("PLEASE, FILL ALL INPUTS")
     }
       
   
@@ -169,27 +167,27 @@ function App() {
     <>
 		<div className = ' vh-100 container-fluid bg-dark'>
 				<div className = 'row h-100'>
-					<form className = 'py-5 bg-secondary col-3'>
+					<form className = 'py-5 bg-secondary col-3' onSubmit = {e => createNewUser(e)}>
 						<h5>Create New User</h5>
 						<div className = 'input-group my-3'>
-							<input type="file" className="d-block form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload"/>
+							<input type="file" name = 'foto' className="d-block form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload"/>
 						</div>
 						<div className = 'input-group my-3'>
 							<span className="d-block input-group-text" id="addon-wrapping">Name</span>
-							<input type="text" className="form-control" placeholder="Name" aria-label="Username" aria-describedby="addon-wrapping"></input>
+							<input type="text" name = 'nome' className="form-control" placeholder="Name" aria-label="Username" aria-describedby="addon-wrapping"></input>
 						</div>
 						<div className = 'input-group my-3'>
 							<span className="d-block input-group-text" id="addon-wrapping">Phone</span>
-							<input type="text" className="form-control" placeholder="Phone" aria-label="Username" aria-describedby="addon-wrapping"></input>
+							<input type="text" name = 'telefone' className="form-control" placeholder="Phone" aria-label="Username" aria-describedby="addon-wrapping"></input>
 						</div>
 						<div className = 'input-group my-3'>
 							<span className="d-block input-group-text" id="addon-wrapping">E-mail</span>
-							<input type="text" className="form-control" placeholder="E-mail" aria-label="Username" aria-describedby="addon-wrapping"></input>
+							<input type="text" name = 'email' className="form-control" placeholder="E-mail" aria-label="Username" aria-describedby="addon-wrapping"></input>
 						</div>
 						<button type="submit" class="btn btn-dark mb-3">Create New User</button>
 					</form>
 					<div className = 'h-100 text-white col-6 '>
-						<div className = 'card-group'>
+						<div className = 'row row-cols-1 row-cols-md-2 g-4'>
 						{
 							dataBaseRows && dataBaseRows.map(row => {
 								return (
@@ -200,16 +198,23 @@ function App() {
 												src = {`data:image/png;base64,${row.foto}`}
 												/*onDoubleClick = { () => {setKeysInState(row.telefone, "foto")} }*/
 												/>
-											<div className = 'card-body px-1 py-0 mt-1'>
+											<div className = 'card-body px21 py-0 mt-1'>
 												<h5 className = 'card-title m-0'>
 													{row.nome}
 												</h5>
 											</div>
 											
 											<ul class="list-group list-group-flush">
-													<li class="list-group-item list-group-item-secondary list-group-item-action">An item</li>
-													<li class="list-group-item list-group-item-secondary list-group-item-action">A second item</li>
-
+												{
+													Object.keys(row).map(key => {
+														const value = row[key]
+														if(key != 'foto' && key != 'nome') {
+															return (
+															<li class="list-group-item list-group-item-secondary"><strong className = 'text-capitalize'>{key}: </strong>{value}</li>
+															)
+														}
+													})
+												}
 											</ul>							
                     							</div>
 									
