@@ -165,7 +165,7 @@ function App() {
 
   return (
     <>
-		<div className = ' vh-100 container-fluid bg-dark'>
+		<div className = ' min-vh-100 container-fluid bg-dark'>
 				<div className = 'row h-100'>
 					<form className = 'py-5 bg-secondary col-3' onSubmit = {e => createNewUser(e)}>
 						<h5>Create New User</h5>
@@ -186,42 +186,45 @@ function App() {
 						</div>
 						<button type="submit" class="btn btn-dark mb-3">Create New User</button>
 					</form>
-					<div className = 'h-100 text-white col-6 gx-5 gy-2'>
-						<div className = 'row row-cols-2'>
+					<div className = 'h-100 text-white col-7'>
+						<div className = 'row row-cols-2 mt-1 g-5'>
 						{
 							dataBaseRows && dataBaseRows.map(row => {
 								return (
-									 	<div className = 'm-0 p-0 card bg-secondary text-white' >
-												<img 
-												className="card-img-top"
-												alt = 'profileImage' 
-												src = {`data:image/png;base64,${row.foto}`}
-												/*onDoubleClick = { () => {setKeysInState(row.telefone, "foto")} }*/
-												/>
-											<div className = 'card-body px21 py-0 mt-1'>
-												<h5 className = 'card-title m-0'>
-													{row.nome}
-												</h5>
-											</div>
-											
-											<ul class="list-group list-group-flush">
-												{
-													Object.keys(row).map(key => {
-														const value = row[key]
-														if(key != 'foto' && key != 'nome') {
-															return (
-															<li class="list-group-item list-group-item-secondary"><strong className = 'text-capitalize'>{key}: </strong>{value}</li>
-															)
-														}
-													})
-												}
-											</ul>							
-                  	</div>
+									 	<div class = 'col'>
+                          <div className = 'card bg-secondary text-white' >
+                          <img 
+                          className="card-img-top"
+                          alt = 'profileImage' 
+                          src = {`data:image/png;base64,${row.foto}`}
+                          /*onDoubleClick = { () => {setKeysInState(row.telefone, "foto")} }*/
+                          />
+                        <div className = 'card-body px21 py-0 mt-1'>
+                          <h5 className = 'card-title m-0'>
+                            {row.nome}
+                          </h5>
+                        </div>
+                        
+                        <ul class="list-group list-group-flush">
+                          {
+                            Object.keys(row).map(key => {
+                              const value = row[key]
+                              if(key != 'foto' && key != 'nome') {
+                                return (
+                                <li class="list-group-item list-group-item-secondary"><strong className = 'text-capitalize'>{key}: </strong>{value}</li>
+                                )
+                              }
+                            })
+                          }
+                        </ul>							
+                        </div>
+                    </div>
+                    
 									
 								)
 							})
 						}
-            				</div>
+            </div>
             
 					</div>			
 				</div>
