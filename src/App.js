@@ -19,11 +19,12 @@ function App() {
   const [dataBaseRows, setDataBaseRows] = useState()
   const [dataBaseFields, setDataBaseFields] = useState()
   const [editMode, setEditMode] = useState()
-  const [loadingImage, setLoadingImage] = useState()
+  const [loadingImage, setLoadingImage] = useState(true)
   const [propertyToBeUpdated, setPropertyToBeUpdated] = useState()
   const [cardId, setCardId] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
   const [pictureChosen, setPictureChosen] = useState()
+  const [allowForDeleteAlert, setAllowForDeleteAlert] = useState()
   const dataBaseUrl = "http://localhost:3001"
   
   const pathToFileName = path => {
@@ -68,22 +69,26 @@ function App() {
 
 
   const deleteNewUser = () => {
-    const allow = confirm("Are you sure to execute this action?")
-    if(allow) {
-      Axios.delete(dataBaseUrl, {
-        data: {
-          telefone: cardId
-        },
-        headers: {
-          "Authorization" : "***"
-        }
-  
-      })
-        .then(setLoadingImage(!loadingImage))
-        .then(setEditMode(!editMode))
-        .then(res => setDataBase(res.data))
-        .catch(err => console.log(err))
-    }
+      if(cardId) {
+        Axios.delete(dataBaseUrl, {
+          data: {
+            telefone: cardId
+          },
+          headers: {
+            "Authorization" : "***"
+          }
+    
+        })
+          .then(setLoadingImage(!loadingImage))
+          .then(setEditMode(!editMode))
+          .then(res => setDataBase(res.data))
+          .catch(err => console.log(err))
+      }
+      else{
+
+      }
+     
+    
       
   }
 
@@ -168,7 +173,7 @@ function App() {
 
   return (
     <>
-		<div className = 'container-fluid bg-dark'>
+    <div className = 'container-fluid d-flex bg-dark'>
 				<div className = 'row min-vh-100'>
 					<form className = 'py-5 bg-secondary col-3' onSubmit = {e => createNewUser(e)}>
 						<h5>Create New User</h5>
@@ -188,7 +193,7 @@ function App() {
 							<input type="text" name = 'email' className="form-control" placeholder="E-mail" aria-label="Username" aria-describedby="addon-wrapping"></input>
 						</div>
 						<button type="submit" class="btn btn-dark mb-3">Create New User</button>
-            <button type = 'button' class = 'btn btn-dark mb-3 mx-3' onClick = {() => deleteNewUser()}>Delete Card</button>
+            <button type = 'button' class = 'btn btn-dark mb-3 mx-3' onClick = {() => setAllowForDeleteAlert(true)}>Delete Card</button>
 					</form>
 					<div className = 'text-white col-7'>
 						<div className = 'row row-cols-2 mt-1 g-5'>
@@ -196,11 +201,12 @@ function App() {
 							dataBaseRows && dataBaseRows.map(row => {
 								return (
 									 	<div class = 'col'>
-                          <div onClick = {e => setCardId(row.telefone)} className = {`${row.telefone === cardId && 'border-5 border-danger'} card bg-secondary text-white`} name = {row.telefone}>
+                          <div onClick = {e => setCardId(row.telefone)} className = {`${row.telefone === cardId && 'border-3 border-danger'} card bg-secondary text-white`} name = {row.telefone}>
                           <img 
                           className="card-img-top"
                           alt = 'profileImage' 
                           src = {`data:image/png;base64,${row.foto}`}
+                          style = {{height: "15vw"}}
                           />
                         <div className = 'card-body  py-0 mt-1'>
                           <h5 className = 'card-title m-0'>
@@ -222,24 +228,69 @@ function App() {
                         </ul>							
                         </div>
                     </div>
-                    
-									
 								)
 							})
 						}
             </div>
-            
 					</div>			
 				</div>
 				
 		</div>
     {
+       (loadingImage || allowForDeleteAlert ) &&
+       <div 
+       className = 'vh-100 container-fluid d-flex justify-content-center align-items-center fixed-top' 
+       style = {{background: "black", opacity: "0.3", cursor: "not-allowed"}}
+       >
+       </div>
+    }
+    {
       loadingImage && 
-      <div className = 'vh-100 container-fluid d-flex justify-content-center align-items-center fixed-top' style = {{background: "black", opacity: "0.3"}}>
-      <div class="spinner-border text-primary" role="status" style = {{width: "10rem", height: "10rem"}}>
-        <span class="visually-hidden">Loading...</span>
+      <div 
+       className = 'vh-100 container-fluid d-flex justify-content-center align-items-center fixed-top' 
+       >
+         <div class="spinner-border border-5 text-primary" role="status" style = {{width: "10rem", height: "10rem"}}>
+            <span class="visually-hidden">Loading...</span>
+          </div>
+       </div>
+    }
+
+    {
+      allowForDeleteAlert && 
+      <>
+      <div class="m-1 alert alert-danger d-flex fixed-top p-2 align-self mx-3"  role="alert">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+      </svg>
+      <div>
+        <span>Area you sure wanna delete selected card ?!</span>
+        <button 
+        className = 'mx-3 btn btn-danger py-0'
+        onClick = {() => {
+          setAllowForDeleteAlert(false)
+          setCardId(undefined)
+          deleteNewUser()
+        }}
+        >Yes
+        </button>
+        <button 
+        className = 'btn btn-danger py-0'
+        onClick = {() => {
+          setAllowForDeleteAlert(false)
+          setCardId(undefined)
+        }}
+        >No
+        </button>
+        <button 
+        type = 'button' 
+        class = {`ms-3 btn btn-close justify-self-center align-self-end`} 
+        aria-label = {`Close`} 
+        style = {{position: "relative", right: "0"}}
+        onClick = {() => setAllowForDeleteAlert(false)}
+        />
       </div>
-    </div>
+    </div>  
+    </>
     }
     </> 
   )
