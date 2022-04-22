@@ -20,8 +20,8 @@ function App() {
   const [dataBaseFields, setDataBaseFields] = useState()
   const [editMode, setEditMode] = useState()
   const [loadingImage, setLoadingImage] = useState()
-  const [currentColumnToBeUpdated, setCurrentColumnToBeUpdated] = useState()
-  const [currentRowToBeUpdated, setCurrentRowToBeUpdated] = useState()
+  const [propertyToBeUpdated, setPropertyToBeUpdated] = useState()
+  const [cardId, setCardId] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
   const [pictureChosen, setPictureChosen] = useState()
   const dataBaseUrl = "http://localhost:3001"
@@ -67,20 +67,23 @@ function App() {
   }
 
 
-  const deleteNewUser = e => {
-    Axios.delete(dataBaseUrl, {
-      data: {
-        telefone: e.target.name
-      },
-      headers: {
-        "Authorization" : "***"
-      }
-
-    })
-      .then(setLoadingImage(!loadingImage))
-      .then(setEditMode(!editMode))
-      .then(res => setDataBase(res.data))
-      .catch(err => console.log(err))
+  const deleteNewUser = () => {
+    const allow = confirm("Are you sure to execute this action?")
+    if(allow) {
+      Axios.delete(dataBaseUrl, {
+        data: {
+          telefone: cardId
+        },
+        headers: {
+          "Authorization" : "***"
+        }
+  
+      })
+        .then(setLoadingImage(!loadingImage))
+        .then(setEditMode(!editMode))
+        .then(res => setDataBase(res.data))
+        .catch(err => console.log(err))
+    }
       
   }
 
@@ -90,8 +93,8 @@ function App() {
     const updatedInputValue = event.value
     const axiosInfosSetup = {
       newValue: updatedInputValue,
-      lineKey: currentRowToBeUpdated,
-      lineChange: currentColumnToBeUpdated
+      lineKey: cardId,
+      lineChange: propertyToBeUpdated
     }
 
     if (updatedInputValue) {
@@ -113,8 +116,8 @@ function App() {
     const photoPath = input.value
     if(photoPath) {
     const formData = new FormData(event)
-    formData.append('lineKey', currentRowToBeUpdated)
-    formData.append('lineChange', currentColumnToBeUpdated)
+    formData.append('lineKey', cardId)
+    formData.append('lineChange', propertyToBeUpdated)
     Axios.put(dataBaseUrl, formData)
       .then(setEditMode(!editMode))
       .then(res => setDataBase(res.data))
@@ -130,8 +133,8 @@ function App() {
 
  
   const setKeysInState = (primaryKey, field) => {
-    setCurrentColumnToBeUpdated(field)
-    setCurrentRowToBeUpdated (primaryKey)
+    setPropertyToBeUpdated(field)
+    setCardId (primaryKey)
   }
 
   
@@ -165,8 +168,8 @@ function App() {
 
   return (
     <>
-		<div className = ' min-vh-100 container-fluid bg-dark'>
-				<div className = 'row h-100'>
+		<div className = 'container-fluid bg-dark'>
+				<div className = 'row min-vh-100'>
 					<form className = 'py-5 bg-secondary col-3' onSubmit = {e => createNewUser(e)}>
 						<h5>Create New User</h5>
 						<div className = 'input-group my-3'>
@@ -185,21 +188,21 @@ function App() {
 							<input type="text" name = 'email' className="form-control" placeholder="E-mail" aria-label="Username" aria-describedby="addon-wrapping"></input>
 						</div>
 						<button type="submit" class="btn btn-dark mb-3">Create New User</button>
+            <button type = 'button' class = 'btn btn-dark mb-3 mx-3' onClick = {() => deleteNewUser()}>Delete Card</button>
 					</form>
-					<div className = 'h-100 text-white col-7'>
+					<div className = 'text-white col-7'>
 						<div className = 'row row-cols-2 mt-1 g-5'>
 						{
 							dataBaseRows && dataBaseRows.map(row => {
 								return (
 									 	<div class = 'col'>
-                          <div className = 'card bg-secondary text-white' >
+                          <div onClick = {e => setCardId(row.telefone)} className = {`${row.telefone === cardId && 'border-5 border-danger'} card bg-secondary text-white`} name = {row.telefone}>
                           <img 
                           className="card-img-top"
                           alt = 'profileImage' 
                           src = {`data:image/png;base64,${row.foto}`}
-                          /*onDoubleClick = { () => {setKeysInState(row.telefone, "foto")} }*/
                           />
-                        <div className = 'card-body px21 py-0 mt-1'>
+                        <div className = 'card-body  py-0 mt-1'>
                           <h5 className = 'card-title m-0'>
                             {row.nome}
                           </h5>
@@ -230,6 +233,14 @@ function App() {
 				</div>
 				
 		</div>
+    {
+      loadingImage && 
+      <div className = 'vh-100 container-fluid d-flex justify-content-center align-items-center fixed-top' style = {{background: "black", opacity: "0.3"}}>
+      <div class="spinner-border text-primary" role="status" style = {{width: "10rem", height: "10rem"}}>
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    }
     </> 
   )
 }
