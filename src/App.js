@@ -19,7 +19,7 @@ function App() {
   const [dataBaseRows, setDataBaseRows] = useState()
   const [dataBaseFields, setDataBaseFields] = useState()
   const [editMode, setEditMode] = useState()
-  const [loadingImage, setLoadingImage] = useState(true)
+  const [loadingImage, setLoadingImage] = useState()
   const [propertyToBeUpdated, setPropertyToBeUpdated] = useState()
   const [cardId, setCardId] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
@@ -175,7 +175,7 @@ function App() {
     <>
     <div className = 'container-fluid d-flex bg-dark'>
 				<div className = 'row min-vh-100'>
-					<form className = 'py-5 bg-secondary col-3' onSubmit = {e => createNewUser(e)}>
+					<form className = 'py-5 bg-secondary col-4' onSubmit = {e => createNewUser(e)}>
 						<h5>Create New User</h5>
 						<div className = 'input-group my-3'>
 							<input type="file" name = 'foto' className="d-block form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload"/>
@@ -195,26 +195,37 @@ function App() {
 						<button type="submit" class="btn btn-dark mb-3">Create New User</button>
             <button type = 'button' class = 'btn btn-dark mb-3 mx-3' onClick = {() => setAllowForDeleteAlert(true)}>Delete Card</button>
 					</form>
-					<div className = 'text-white col-7'>
+					<div className = 'text-white col-8'>
 						<div className = 'row row-cols-2 mt-1 g-5'>
 						{
 							dataBaseRows && dataBaseRows.map(row => {
 								return (
 									 	<div class = 'col'>
-                          <div onClick = {e => setCardId(row.telefone)} className = {`${row.telefone === cardId && 'border-3 border-danger'} card bg-secondary text-white`} name = {row.telefone}>
+                          <div 
+                          className = {`${row.telefone === cardId && 'border-3 border-danger'} card bg-secondary text-white`} 
+                          onClick = {e => {
+                            if(cardId === row.telefone) {
+                              setCardId(undefined)
+                            }
+                            else {
+                              setCardId(row.telefone)
+                            }
+                          }} 
+                          name = {row.telefone}
+                          >
                           <img 
                           className="card-img-top"
                           alt = 'profileImage' 
                           src = {`data:image/png;base64,${row.foto}`}
                           style = {{height: "15vw"}}
                           />
-                        <div className = 'card-body  py-0 mt-1'>
+                        <div className = 'card-body py-0 mt-1'>
                           <h5 className = 'card-title m-0'>
                             {row.nome}
                           </h5>
                         </div>
                         
-                        <ul class="list-group list-group-flush">
+                        <ul class="border-0 list-group list-group-flush">
                           {
                             Object.keys(row).map(key => {
                               const value = row[key]
@@ -237,22 +248,22 @@ function App() {
 				
 		</div>
     {
-       (loadingImage || allowForDeleteAlert ) &&
+       /*(loadingImage || allowForDeleteAlert ) &&
        <div 
        className = 'vh-100 container-fluid d-flex justify-content-center align-items-center fixed-top' 
        style = {{background: "black", opacity: "0.3", cursor: "not-allowed"}}
        >
-       </div>
+       </div>*/
     }
     {
-      loadingImage && 
+      /*loadingImage && 
       <div 
        className = 'vh-100 container-fluid d-flex justify-content-center align-items-center fixed-top' 
        >
          <div class="spinner-border border-5 text-primary" role="status" style = {{width: "10rem", height: "10rem"}}>
             <span class="visually-hidden">Loading...</span>
           </div>
-       </div>
+       </div>*/
     }
 
     {
