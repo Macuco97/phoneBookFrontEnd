@@ -184,7 +184,7 @@ function App() {
             </form>
             <hr/>
             <div class="input-group mb-3">
-              <button type="button" className = {`btn btn-outline-dark text-capitalize`}>{propertyToBeUpdated}</button>
+              <button type="button" className = {`btn btn-outline-dark text-capitalize`} style = {{width: '6rem'}}>{propertyToBeUpdated}</button>
               <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="visually-hidden">Toggle Dropdown</span>
               </button>
