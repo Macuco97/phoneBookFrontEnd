@@ -52,6 +52,7 @@ function App() {
       element = event[key]
       if (element.tagName === "INPUT") {
         elementsInputValue.push(element.value)
+        element.value = ""
       }
     })
     if(elementsInputValue.indexOf("") === -1) {
@@ -160,17 +161,6 @@ function App() {
     setEditMode(!editMode)
   },[dataBaseRows])
 
-  useEffect(() => {
-    console.log('editMode', editMode)
-    setPictureChosen(undefined)
-  },[editMode])
-
-  useEffect (() => {
-    console.log('loadingImage', loadingImage)
-  }, [loadingImage])
-
-  
-
   return (
     <>
     <div className = 'container-fluid d-flex bg-dark'>
@@ -190,7 +180,7 @@ function App() {
 						</div>
 						<div className = 'input-group my-3'>
 							<span className="d-block input-group-text" id="addon-wrapping">E-mail</span>
-							<input type="text" name = 'email' className="form-control" placeholder="E-mail" aria-label="Username" aria-describedby="addon-wrapping"></input>
+							<input type="email" name = 'email' className="form-control" placeholder="E-mail" aria-label="Username" aria-describedby="addon-wrapping"></input>
 						</div>
 						<button type="submit" class="btn btn-dark mb-3">Create New User</button>
             <button type = 'button' class = 'btn btn-dark mb-3 mx-3' onClick = {() => setAllowForDeleteAlert(true)}>Delete Card</button>
