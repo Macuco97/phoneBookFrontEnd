@@ -1,6 +1,6 @@
 import './App.css';
 import Axios from "axios"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import addItemIcon from "./addItemIcon.png"
 import loadingIco from './loading.gif'
 import submitIco from './submitIco.png'
@@ -25,6 +25,7 @@ function App() {
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
   const [pictureChosen, setPictureChosen] = useState()
   const [allowForDeleteAlert, setAllowForDeleteAlert] = useState()
+  const updateInput = useRef()
   const dataBaseUrl = "http://localhost:3001"
   
   const pathToFileName = path => {
@@ -93,25 +94,20 @@ function App() {
       
   }
 
-  const updateNewUser = e => {
-    e.preventDefault()
-    const event = e.target.updatedInput
-    const updatedInputValue = event.value
+  const updateNewUser = () => {
     const axiosInfosSetup = {
-      newValue: updatedInputValue,
+      newValue: propertyToBeUpdatedValue,
       lineKey: cardId,
       lineChange: propertyToBeUpdated
     }
-
-    if (updatedInputValue) {
+    if (propertyToBeUpdatedValue && cardId && propertyToBeUpdated) {
       Axios.put(dataBaseUrl, axiosInfosSetup)
         .then(setLoadingImage(!loadingImage))
         .then(res => setDataBase(res.data))
-        .then(setKeysInState("", ""))
+        .then(() => updateInput.current.value = '')
     }
     else {
       alert('Please fill input with some information')
-      setKeysInState("", "")
     }
   }
 
@@ -212,9 +208,11 @@ function App() {
               class="form-control"
               aria-label="Text input with segmented dropdown button"
               onChange = {e => setPropertyToBeUpdatedvalue(e.target.value)}
+              ref = {updateInput}
               />
               <button
               className = {`btn btn-dark ms-1`}
+              onClick = {() => updateNewUser()}
               >
                 Update
               </button>
