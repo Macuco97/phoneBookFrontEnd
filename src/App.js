@@ -225,7 +225,7 @@ function App() {
 								return (
 									 	<div class = 'col'>
                           <div 
-                          className = {`${row.telefone === cardId && 'border-3 border-danger'} card bg-secondary text-white`} 
+                          className = {`${row.telefone === cardId ? 'border-danger' : 'border-secondary'} card border-3 bg-secondary text-white`} 
                           onClick = {e => {
                             if(cardId === row.telefone) {
                               setCardId(undefined)
