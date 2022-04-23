@@ -1,5 +1,4 @@
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.css';
 import Axios from "axios"
 import React, { useState, useEffect } from "react"
 import addItemIcon from "./addItemIcon.png"
@@ -20,7 +19,8 @@ function App() {
   const [dataBaseFields, setDataBaseFields] = useState()
   const [editMode, setEditMode] = useState()
   const [loadingImage, setLoadingImage] = useState()
-  const [propertyToBeUpdated, setPropertyToBeUpdated] = useState()
+  const [propertyToBeUpdated, setPropertyToBeUpdated] = useState("Choose Property")
+  const [propertyToBeUpdatedValue, setPropertyToBeUpdatedvalue] = useState()
   const [cardId, setCardId] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
   const [pictureChosen, setPictureChosen] = useState()
@@ -165,26 +165,61 @@ function App() {
     <>
     <div className = 'container-fluid d-flex bg-dark'>
 				<div className = 'row min-vh-100'>
-					<form className = 'py-5 bg-secondary col-4' onSubmit = {e => createNewUser(e)}>
-						<h5>Create New User</h5>
-						<div className = 'input-group my-3'>
-							<input type="file" name = 'foto' className="d-block form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload"/>
-						</div>
-						<div className = 'input-group my-3'>
-							<span className="d-block input-group-text" id="addon-wrapping">Name</span>
-							<input type="text" name = 'nome' className="form-control" placeholder="Name" aria-label="Username" aria-describedby="addon-wrapping"></input>
-						</div>
-						<div className = 'input-group my-3'>
-							<span className="d-block input-group-text" id="addon-wrapping">Phone</span>
-							<input type="text" name = 'telefone' className="form-control" placeholder="Phone" aria-label="Username" aria-describedby="addon-wrapping"></input>
-						</div>
-						<div className = 'input-group my-3'>
-							<span className="d-block input-group-text" id="addon-wrapping">E-mail</span>
-							<input type="email" name = 'email' className="form-control" placeholder="E-mail" aria-label="Username" aria-describedby="addon-wrapping"></input>
-						</div>
-						<button type="submit" class="btn btn-dark mb-3">Create New User</button>
-            <button type = 'button' class = 'btn btn-dark mb-3 mx-3' onClick = {() => setAllowForDeleteAlert(true)}>Delete Card</button>
-					</form>
+          <div className = {`py-4 col-4 min-vh-100 bg-secondary `}> 
+            <form onSubmit = {e => createNewUser(e)}>
+              <h5>Create New User</h5>
+              <div className = 'input-group my-3'>
+                <input type="file" name = 'foto' className="d-block form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload"/>
+              </div>
+              <div className = 'input-group my-3'>
+                <span className="d-block input-group-text" id="addon-wrapping">Name</span>
+                <input type="text" name = 'nome' className="form-control" placeholder="Name" aria-label="Username" aria-describedby="addon-wrapping"></input>
+              </div>
+              <div className = 'input-group my-3'>
+                <span className="d-block input-group-text" id="addon-wrapping">Phone</span>
+                <input type="text" name = 'telefone' className="form-control" placeholder="Phone" aria-label="Username" aria-describedby="addon-wrapping"></input>
+              </div>
+              <div className = 'input-group my-3'>
+                <span className="d-block input-group-text" id="addon-wrapping">E-mail</span>
+                <input type="email" name = 'email' className="form-control" placeholder="E-mail" aria-label="Username" aria-describedby="addon-wrapping"></input>
+              </div>
+              <button type="submit" class="btn btn-dark mb-3">Create New User</button>
+              <button type = 'button' class = 'btn btn-dark mb-3 mx-3' onClick = {() => setAllowForDeleteAlert(true)}>Delete Card</button>
+            </form>
+            <hr/>
+            <div class="input-group mb-3">
+              <button type="button" className = {`btn btn-outline-dark text-capitalize`}>{propertyToBeUpdated}</button>
+              <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu">
+              {
+               dataBaseRows &&
+               Object.keys(dataBaseRows[0]).map(key => {
+                 return (<li
+                  className = {`text-capitalize ms-2`}
+                  onClick = {() => setPropertyToBeUpdated(key)}
+                  style = {{cursor: 'pointer'}}
+                  >
+                  {key}
+                  </li>
+                 )
+               })
+              }
+              </ul>
+              <input 
+              type="text" 
+              class="form-control"
+              aria-label="Text input with segmented dropdown button"
+              onChange = {e => setPropertyToBeUpdatedvalue(e.target.value)}
+              />
+              <button
+              className = {`btn btn-dark ms-1`}
+              >
+                Update
+              </button>
+            </div>
+          </div>
 					<div className = 'text-white col-8'>
 						<div className = 'row row-cols-2 mt-1 g-5'>
 						{
