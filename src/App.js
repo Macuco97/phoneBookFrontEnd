@@ -19,12 +19,13 @@ function App() {
   const [dataBaseFields, setDataBaseFields] = useState()
   const [editMode, setEditMode] = useState()
   const [loadingImage, setLoadingImage] = useState()
-  const [propertyToBeUpdated, setPropertyToBeUpdated] = useState("Choose Property")
+  const [propertyToBeUpdated, setPropertyToBeUpdated] = useState("Property")
   const [propertyToBeUpdatedValue, setPropertyToBeUpdatedvalue] = useState()
   const [cardId, setCardId] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
   const [pictureChosen, setPictureChosen] = useState()
   const [allowForDeleteAlert, setAllowForDeleteAlert] = useState()
+  const [fieldEmptyAlert, setFieldEmptyAlert] = useState()
   const updateInput = useRef()
   const dataBaseUrl = "http://localhost:3001"
   
@@ -100,14 +101,14 @@ function App() {
       lineKey: cardId,
       lineChange: propertyToBeUpdated
     }
-    if (propertyToBeUpdatedValue && cardId && propertyToBeUpdated) {
+    if (propertyToBeUpdatedValue && cardId && propertyToBeUpdated !== "Property") {
       Axios.put(dataBaseUrl, axiosInfosSetup)
         .then(setLoadingImage(!loadingImage))
         .then(res => setDataBase(res.data))
         .then(() => updateInput.current.value = '')
     }
     else {
-      alert('Please fill input with some information')
+      setFieldEmptyAlert(true)
     }
   }
 
@@ -160,6 +161,24 @@ function App() {
   return (
     <>
     <div className = 'container-fluid d-flex bg-dark'>
+     { 
+      fieldEmptyAlert &&
+      <div className = {`fixed-top justify-content-center d-flex`}>
+        <div class="m-1 alert alert-warning  p-2  mx-3 w-25 d-flex"  role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+              <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+              <span className = 'flex-grow-1'>PLEASE, FILL ALL INPUTS !</span>
+              <button 
+              type = 'button' 
+              class = {`ms-3 btn btn-close align-self-center`} 
+              aria-label = {`Close`} 
+              style = {{position: "relative", right: "0"}}
+              onClick = {() => setFieldEmptyAlert(false)}
+              />
+        </div>
+      </div>  
+      } 
 				<div className = 'row min-vh-100'>
           <div className = {`py-4 col-4 min-vh-100 bg-secondary `}> 
             <form onSubmit = {e => createNewUser(e)}>
@@ -183,39 +202,40 @@ function App() {
               <button type = 'button' class = 'btn btn-dark mb-3 mx-3' onClick = {() => setAllowForDeleteAlert(true)}>Delete Card</button>
             </form>
             <hr/>
-            <div class="input-group mb-3">
-              <button type="button" className = {`btn btn-outline-dark text-capitalize`} style = {{width: '6rem'}}>{propertyToBeUpdated}</button>
-              <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="visually-hidden">Toggle Dropdown</span>
-              </button>
-              <ul class="dropdown-menu">
-              {
-               dataBaseRows &&
-               Object.keys(dataBaseRows[0]).map(key => {
-                 return (<li
-                  className = {`text-capitalize ms-2`}
-                  onClick = {() => setPropertyToBeUpdated(key)}
-                  style = {{cursor: 'pointer'}}
-                  >
-                  {key}
-                  </li>
-                 )
-               })
-              }
-              </ul>
-              <input 
-              type="text" 
-              class="form-control"
-              aria-label="Text input with segmented dropdown button"
-              onChange = {e => setPropertyToBeUpdatedvalue(e.target.value)}
-              ref = {updateInput}
-              />
-              <button
-              className = {`btn btn-dark ms-1`}
-              onClick = {() => updateNewUser()}
-              >
-                Update
-              </button>
+              <div class="input-group mb-3">
+                <button type="button" className = {`btn btn-outline-dark text-capitalize`} style = {{width: '6rem'}}>{propertyToBeUpdated}</button>
+                <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                {
+                dataBaseRows &&
+                Object.keys(dataBaseRows[0]).map(key => {
+                  return (<li
+                    className = {`text-capitalize ms-2`}
+                    onClick = {() => setPropertyToBeUpdated(key)}
+                    style = {{cursor: 'pointer'}}
+                    >
+                    {key}
+                    </li>
+                  )
+                })
+                }
+                </ul>
+                <input 
+                type="text" 
+                class="form-control"
+                aria-label="Text input with segmented dropdown button"
+                onChange = {e => setPropertyToBeUpdatedvalue(e.target.value)}
+                ref = {updateInput}
+                />
+                <button
+                className = {`btn btn-dark ms-1`}
+                onClick = {() => updateNewUser()}
+                type = 'button'
+                >
+                  Update
+                </button>
             </div>
           </div>
 					<div className = 'text-white col-8'>
@@ -225,7 +245,7 @@ function App() {
 								return (
 									 	<div class = 'col'>
                           <div 
-                          className = {`${row.telefone === cardId ? 'border-danger' : 'border-secondary'} card border-3 bg-secondary text-white`} 
+                          className = {`${row.telefone === cardId ? 'border-danger' : ''} card border-3 bg-secondary text-white`} 
                           onClick = {e => {
                             if(cardId === row.telefone) {
                               setCardId(undefined)
@@ -235,6 +255,7 @@ function App() {
                             }
                           }} 
                           name = {row.telefone}
+                          style = {{cursor: 'pointer'}}
                           >
                           <img 
                           className="card-img-top"
@@ -271,22 +292,22 @@ function App() {
 				
 		</div>
     {
-       /*(loadingImage || allowForDeleteAlert ) &&
+       (loadingImage || allowForDeleteAlert ) &&
        <div 
        className = 'vh-100 container-fluid d-flex justify-content-center align-items-center fixed-top' 
        style = {{background: "black", opacity: "0.3", cursor: "not-allowed"}}
        >
-       </div>*/
+       </div>
     }
     {
-      /*loadingImage && 
+      loadingImage && 
       <div 
        className = 'vh-100 container-fluid d-flex justify-content-center align-items-center fixed-top' 
        >
          <div class="spinner-border border-5 text-primary" role="status" style = {{width: "10rem", height: "10rem"}}>
             <span class="visually-hidden">Loading...</span>
           </div>
-       </div>*/
+       </div>
     }
 
     {
