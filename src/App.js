@@ -1,18 +1,14 @@
 import './App.css';
 import Axios from "axios"
 import React, { useState, useEffect, useRef } from "react"
-import addItemIcon from "./addItemIcon.png"
-import loadingIco from './loading.gif'
-import submitIco from './submitIco.png'
-import xIco from './xIco.png'
-import editIco from './editIco.png'
+import Alert from './components/Alert'
+import Offcanvas from './components/Offcanvas'
+import Card from './components/Card'
+
 
 
 
 function App() {
-
-  
-  
   
   const [dataBase, setDataBase] = useState()
   const [dataBaseRows, setDataBaseRows] = useState()
@@ -20,7 +16,7 @@ function App() {
   const [editMode, setEditMode] = useState()
   const [loadingImage, setLoadingImage] = useState()
   const [propertyToBeUpdated, setPropertyToBeUpdated] = useState("Property")
-  const [propertyToBeUpdatedValue, setPropertyToBeUpdatedvalue] = useState()
+  const [propertyToBeUpdatedValue, setPropertyToBeUpdatedValue] = useState()
   const [cardId, setCardId] = useState()
   const [newPhotoToBeUpdated, setNewPhotoToBeUpdated] = useState()
   const [pictureChosen, setPictureChosen] = useState()
@@ -167,7 +163,45 @@ function App() {
 
   return (
     <>
-    
+		<div className = {`container-fluid bg-dark text-white vh-100`}>
+			<div className = {`row`}
+			style = {{height: '5%'}}
+			>
+				{
+					<Offcanvas
+					createNewUser = {(data) => createNewUser(data)}
+					allowForDeleteAlert = {allowForDeleteAlert}
+					setAllowForDeleteAlert = {data => setAllowForDeleteAlert(data)}
+					dataBaseRows = {dataBaseRows}
+					propertyToBeUpdated = {propertyToBeUpdated}
+					setPropertyToBeUpdated = {data => setPropertyToBeUpdated(data)}
+					setPropertyToBeUpdatedValue = {data => setPropertyToBeUpdatedValue(data)}
+					updateInput = {updateInput}
+					updateNewUser = {updateNewUser}
+					/>
+				}
+				{
+					fieldEmptyAlert && 
+					<Alert
+					fieldEmptyAlert = {fieldEmptyAlert}
+					setFieldEmptyAlert = {data => setFieldEmptyAlert(data)}
+					/>
+				}	
+			</div>
+			<div className = {`row px-5`}>
+				{
+					dataBaseRows && dataBaseRows.map(row => {
+						return (
+							<Card
+							row = {row}
+							cardId = {cardId}
+							setCardId = {data => setCardId(data)}
+							/>
+						)
+					})
+				}	
+			</div>
+		</div>
     </> 
   )
 }
