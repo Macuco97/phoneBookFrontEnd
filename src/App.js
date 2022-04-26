@@ -23,6 +23,7 @@ function App() {
   const [allowForDeleteAlert, setAllowForDeleteAlert] = useState()
   const [fieldEmptyAlert, setFieldEmptyAlert] = useState()
   const [cardEmptyAlert, setCardEmptyAlert] = useState()
+  const [widthValue, setWidthValue] = useState(window.innerWidth)
   const updateInput = useRef()
   const dataBaseUrl = "http://192.168.1.7:3001" 
   const quoteWarningFillInputs = "Fill in all entries"
@@ -147,7 +148,6 @@ function App() {
     }
   },[dataBase])
 
-
   useEffect (() => {
     setLoadingImage(!loadingImage)
     setEditMode(!editMode)
@@ -165,6 +165,7 @@ function App() {
 
   return (
     <>
+    <div className = {`fixedTop`} onClick = {() => setWidthValue(window.innerWidth)}>{widthValue}</div>
 		<div className = {`container-fluid bg-dark text-white min-vh-100`}>
 			<div className = {`row`}
 			style = {{height: '5%'}}
