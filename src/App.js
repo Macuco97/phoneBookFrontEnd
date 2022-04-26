@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react"
 import Alert from './components/Alert'
 import Offcanvas from './components/Offcanvas'
 import Card from './components/Card'
+import Loading from './components/Loading'
 
 
 
@@ -165,6 +166,7 @@ function App() {
 
   return (
     <>
+    <Loading/>
     <div className = {`fixedTop`} onClick = {() => setWidthValue(window.innerWidth)}>{widthValue}</div>
 		<div className = {`container-fluid bg-dark text-white min-vh-100`}>
 			<div className = {`row`}
