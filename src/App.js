@@ -24,7 +24,9 @@ function App() {
   const [fieldEmptyAlert, setFieldEmptyAlert] = useState()
   const [cardEmptyAlert, setCardEmptyAlert] = useState()
   const updateInput = useRef()
-  const dataBaseUrl = "http://localhost:3001"
+  const dataBaseUrl = "http://192.168.1.7:3001" 
+  const quoteWarningFillInputs = "Fill in all entries"
+  const quoteConfirmDelete = "Are you sure you want to delete this card ?!"
   
   const pathToFileName = path => {
     const pathArray = path.split("\\")
@@ -163,7 +165,7 @@ function App() {
 
   return (
     <>
-		<div className = {`container-fluid bg-dark text-white vh-100`}>
+		<div className = {`container-fluid bg-dark text-white min-vh-100`}>
 			<div className = {`row`}
 			style = {{height: '5%'}}
 			>
@@ -183,10 +185,26 @@ function App() {
 				{
 					fieldEmptyAlert && 
 					<Alert
-					fieldEmptyAlert = {fieldEmptyAlert}
+					type = {"warning"}
+          quote = {quoteWarningFillInputs}
+          fieldEmptyAlert = {fieldEmptyAlert}
 					setFieldEmptyAlert = {data => setFieldEmptyAlert(data)}
+          allowForDeleteAlert = {allowForDeleteAlert}
+          setAllowForDeleteAlert = {data => setAllowForDeleteAlert(data)}
 					/>
-				}	
+
+
+				}
+        {
+          allowForDeleteAlert && 
+          <Alert
+          type = {`permissonDelete`}
+          setCardId = {data => setCardId(data)}
+          deleteNewUser = {() => deleteNewUser()}
+          setAllowForDeleteAlert = {data => setAllowForDeleteAlert(data)}
+          setFieldEmptyAlert = {data => setFieldEmptyAlert(data)}
+          />                                                                                                                                                                                                                                                                                                                                                                                              
+        }
 			</div>
 			<div className = {`row px-5`}>
 				{
