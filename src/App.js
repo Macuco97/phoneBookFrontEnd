@@ -166,8 +166,10 @@ function App() {
 
   return (
     <>
-    <Loading/>
-    <div className = {`fixedTop`} onClick = {() => setWidthValue(window.innerWidth)}>{widthValue}</div>
+    <div className = {`example`}>Hello World</div>
+    {
+    loadingImage && <Loading/>
+    }
 		<div className = {`container-fluid bg-dark text-white min-vh-100`}>
 			<div className = {`row`}
 			style = {{height: '5%'}}
@@ -203,13 +205,14 @@ function App() {
           <Alert
           type = {`permissonDelete`}
           setCardId = {data => setCardId(data)}
+          cardId = {cardId}
           deleteNewUser = {() => deleteNewUser()}
           setAllowForDeleteAlert = {data => setAllowForDeleteAlert(data)}
           setFieldEmptyAlert = {data => setFieldEmptyAlert(data)}
           />                                                                                                                                                                                                                                                                                                                                                                                              
         }
 			</div>
-			<div className = {`row px-5`}>
+			<div className = {`row g-5 row-cols-1 || row-cols-md-2 g-md-5 || row-cols-lg-3 || row-cols-xxl-4`}>
 				{
 					dataBaseRows && dataBaseRows.map(row => {
 						return (

@@ -1,0 +1,42 @@
+@media only screen and (max-width: 575px) {
+    .example {background: red;}
+    img {
+        height: 50vw;
+        object-fit: fill;
+    }
+}
+  
+@media only screen and (min-width: 576px) {
+    .example {background: green;}
+    img {
+        height: 50vw;
+        object-fit: fill;
+    }
+}
+  
+
+@media only screen and (min-width: 768px) {
+    .example {background: blue;}
+    img {
+        height: 30vw;
+        object-fit: fill;
+    }
+} 
+  
+  
+@media only screen and (min-width: 992px) {
+    .example {background: orange;}
+    img {
+        height: 20vw;
+        object-fit: fill;
+    }
+} 
+  
+ 
+@media only screen and (min-width: 1200px) {
+    .example {background: pink;}
+}
+
+@media only screen and (min-width: 1400px) {
+    .example {background: black;}
+}
