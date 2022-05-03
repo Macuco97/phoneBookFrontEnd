@@ -27,7 +27,7 @@ function App() {
   const [widthValue, setWidthValue] = useState(window.innerWidth)
   
   const updateInput = useRef()
-  const dataBaseUrl = "http://192.168.1.7:3001" 
+  const dataBaseUrl = "https://phonebook-challenger.herokuapp.com/"
   const quoteWarningFillInputs = "Fill in all entries"
   const quoteConfirmDelete = "Are you sure you want to delete this card ?!"
   
@@ -220,7 +220,7 @@ function App() {
           />                                                                                                                                                                                                                                                                                                                                                                                              
         }
 			</div>
-			<div className = {`row g-5 row-cols-1 || row-cols-md-2 g-md-5 || row-cols-lg-3 || row-cols-xxl-4`}>
+			<div className = {`row g-3 row-cols-1 || row-cols-md-2 g-md-3 || row-cols-lg-3 || row-cols-xxl-4`}>
 				{
 					dataBaseRows && dataBaseRows.map(row => {
 						return (
