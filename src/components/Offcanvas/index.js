@@ -1,4 +1,4 @@
-function Offcanvas({ createNewUser, allowForDeleteAlert, setAllowForDeleteAlert, updateNewUser, dataBaseRows, setPropertyToBeUpdated, setPropertyToBeUpdatedValue, updateInput, propertyToBeUpdated}) {
+function Offcanvas({ updateNewPhoto, setNewPhotoToBeUpdated, pictureChosen, setPictureChosen ,createNewUser, allowForDeleteAlert, setAllowForDeleteAlert, updateNewUser, dataBaseRows, setPropertyToBeUpdated, setPropertyToBeUpdatedValue, updateInput, propertyToBeUpdated}) {
     return (
         <>
             <button class="btn btn-primary d-flex bg-dark border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
@@ -54,22 +54,51 @@ function Offcanvas({ createNewUser, allowForDeleteAlert, setAllowForDeleteAlert,
                             )
                             })
                             }
-                            </ul>
-                            <input 
-                            type="text" 
-                            class="form-control"
-                            aria-label="Text input with segmented dropdown button"
-                            onChange = {e => setPropertyToBeUpdatedValue(e.target.value)}
-                            ref = {updateInput}
-                            />
-                            <button
+                            </ul>    
+                            {
+                                propertyToBeUpdated === "foto" ?
+                                <>
+                                    <form id = 'updatedPhotoForm' onSubmit = { e => updateNewPhoto(e) }>
+                                        <input
+                                        name = 'photo'
+                                        form = 'updatedPhotoForm'
+                                        type = 'file'
+                                        className = {`form-control`}
+                                        aria-label="Text input with segmented dropdown button"
+                                        onChange = {e => setNewPhotoToBeUpdated(e.target.value)}
+                                        ref = {updateInput}
+                                        />
+                                    </form>
+                                </>
+                                :
+                                <>
+                                    <input 
+                                    type="text" 
+                                    class="form-control"
+                                    aria-label="Text input with segmented dropdown button"
+                                    onChange = {e => setPropertyToBeUpdatedValue(e.target.value)}
+                                    ref = {updateInput}
+                                    />
+                                    <button
+                                    className = {`btn btn-dark ms-1`}
+                                    onClick = {() => updateNewUser()}
+                                    type = 'button'
+                                    >
+                                    Update
+                                    </button>
+                                </>
+                            }                        
+                           
+                        </div>
+                       { 
+                        propertyToBeUpdated === 'foto' && 
+                        <button
                             className = {`btn btn-dark ms-1`}
-                            onClick = {() => updateNewUser()}
-                            type = 'button'
+                            form = 'updatedPhotoForm'
                             >
                             Update
-                            </button>
-                        </div>
+                        </button>
+                        }
                 </div>
             </div>
         </>

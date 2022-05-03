@@ -36,7 +36,6 @@ function Alert({ quote, type, setCardId, cardId, deleteNewUser, setFieldEmptyAle
                   <button 
                   className = 'mx-3 btn btn-danger py-0'
                   onClick = {() => {
-                    alert(cardId)
                     if(cardId) {
                       setAllowForDeleteAlert(false)
                       setCardId(undefined)

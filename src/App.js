@@ -25,6 +25,7 @@ function App() {
   const [fieldEmptyAlert, setFieldEmptyAlert] = useState()
   const [cardEmptyAlert, setCardEmptyAlert] = useState()
   const [widthValue, setWidthValue] = useState(window.innerWidth)
+  
   const updateInput = useRef()
   const dataBaseUrl = "http://192.168.1.7:3001" 
   const quoteWarningFillInputs = "Fill in all entries"
@@ -93,33 +94,37 @@ function App() {
   }
 
   const updateNewUser = () => {
-    const axiosInfosSetup = {
-      newValue: propertyToBeUpdatedValue,
-      lineKey: cardId,
-      lineChange: propertyToBeUpdated
-    }
-    if (propertyToBeUpdatedValue && cardId && propertyToBeUpdated !== "Property") {
-      Axios.put(dataBaseUrl, axiosInfosSetup)
-        .then(setLoadingImage(!loadingImage))
-        .then(res => setDataBase(res.data))
-        .then(() => updateInput.current.value = '')
+    if (propertyToBeUpdated === 'foto') {
+      updateNewPhoto(propertyToBeUpdatedValue)
     }
     else {
-      setFieldEmptyAlert(true)
-    }
+      const axiosInfosSetup = {
+        newValue: propertyToBeUpdatedValue,
+        lineKey: cardId,
+        lineChange: propertyToBeUpdated
+      }
+      if (propertyToBeUpdatedValue && cardId && propertyToBeUpdated !== "Property") {
+        Axios.put(dataBaseUrl, axiosInfosSetup)
+          .then(setLoadingImage(!loadingImage))
+          .then(res => setDataBase(res.data))
+          .then(() => updateInput.current.value = '')
+      }
+      else {
+        setFieldEmptyAlert(true)
+      }
+    }    
   }
 
   const updateNewPhoto = e => {
     e.preventDefault()
     const event = e.target
-    const input = e.target.photo
-    const photoPath = input.value
-    if(photoPath) {
+    if(newPhotoToBeUpdated) {
     const formData = new FormData(event)
     formData.append('lineKey', cardId)
     formData.append('lineChange', propertyToBeUpdated)
+    console.log(formData.get('lineKey'))
     Axios.put(dataBaseUrl, formData)
-      .then(setEditMode(!editMode))
+      .then(setLoadingImage(!loadingImage))
       .then(res => setDataBase(res.data))
       .then(() => setKeysInState("", ""))
       .catch(err => console.log(err))
@@ -130,7 +135,6 @@ function App() {
     }
     
   }
-
  
   const setKeysInState = (primaryKey, field) => {
     setPropertyToBeUpdated(field)
@@ -166,7 +170,6 @@ function App() {
 
   return (
     <>
-    <div className = {`example`}>Hello World</div>
     {
     loadingImage && <Loading/>
     }
@@ -185,6 +188,11 @@ function App() {
 					setPropertyToBeUpdatedValue = {data => setPropertyToBeUpdatedValue(data)}
 					updateInput = {updateInput}
 					updateNewUser = {updateNewUser}
+          newPhotoToBeUpdated = {newPhotoToBeUpdated}
+          setNewPhotoToBeUpdated = {data => setNewPhotoToBeUpdated(data)}
+          pictureChosen = {pictureChosen}
+          setPictureChosen = {data => setPictureChosen(data)}
+          updateNewPhoto = {data => updateNewPhoto(data)}
 					/>
 				}
 				{
