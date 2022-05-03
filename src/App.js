@@ -220,7 +220,7 @@ function App() {
           />                                                                                                                                                                                                                                                                                                                                                                                              
         }
 			</div>
-			<div className = {`row g-3 row-cols-1 || row-cols-md-2 g-md-3 || row-cols-lg-3 || row-cols-xxl-4`}>
+			<div className = {`row g-3 row-cols-1 || row-cols-md-2 g-md-3 px-5 || row-cols-lg-3 || row-cols-xxl-4`}>
 				{
 					dataBaseRows && dataBaseRows.map(row => {
 						return (
